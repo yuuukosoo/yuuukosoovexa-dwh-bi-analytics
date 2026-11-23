@@ -1,0 +1,19 @@
+# Environment & Secrets (Credential Protection)
+.env
+
+# Python Cache & Virtual Environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Large Raw / Backup Files (>100MB GitHub limit)
+data/raw/INDIA_AQI_COMPLETE_20251126.csv
+backup/*.sql
+backup/*.dump
+backup/*.gz
+
+# OS & Editor Artifacts
+.DS_Store
+Thumbs.db
+.vscode/

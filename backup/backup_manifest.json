@@ -1,0 +1,19 @@
+{
+  "policy": "3-2-1 Redundancy | Retention 7 Local Copies | SHA-256 Verified",
+  "backups": [
+    {
+      "run_id": "BKP-20261122-102553-8c5436",
+      "filename": "yuuukosoovexa_dwh_20261122_102553.sql.gz",
+      "created_at": "2026-11-22 10:25:56",
+      "schemas": [
+        "dwh",
+        "datamart"
+      ],
+      "size_bytes": 2902852,
+      "size_mb": 2.77,
+      "sha256_checksum": "c9258d04d754bd1c0fca4bf1e3ca8ade2a2f7d1fa160d4561a336cf637ccd6c1",
+      "duration_seconds": 2.58,
+      "status": "VERIFIED"
+    }
+  ]
+}

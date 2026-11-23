@@ -1,0 +1,45 @@
+2026-11-21 22:36:04 | INFO     | etl.extract | === START EXTRACT STAGE | run_id=EXT-20261121-223604-d91835 ===
+2026-11-21 22:36:04 | INFO     | etl.extract | Pre-check PASSED: all 5 raw CSV files exist in data/raw/.
+2026-11-21 22:36:04 | WARNING  | etl.extract | Codec utf-8-sig failed on Health_Suppliments_Flipkart_02_04_2022.csv, trying fallback...
+2026-11-21 22:36:04 | WARNING  | etl.extract | Codec utf-8 failed on Health_Suppliments_Flipkart_02_04_2022.csv, trying fallback...
+2026-11-21 22:36:04 | INFO     | etl.extract | Read Health_Suppliments_Flipkart_02_04_2022.csv | rows=3,076 | enc=latin-1 | sep=';'
+2026-11-21 22:36:04 | INFO     | etl.extract | Read 1mgData.csv | rows=16,944 | enc=utf-8-sig | sep=','
+2026-11-21 22:36:15 | INFO     | etl.extract | Read INDIA_AQI_COMPLETE_20251126.csv | rows=842,160 | enc=utf-8-sig | sep=','
+2026-11-21 22:36:38 | INFO     | etl.extract | Read GYM.csv | rows=80,000 | enc=utf-8-sig | sep=';'
+2026-11-21 22:36:39 | INFO     | etl.extract | Read Sleep_health_and_lifestyle_dataset.csv | rows=374 | enc=utf-8-sig | sep=','
+2026-11-21 22:36:39 | INFO     | etl.extract | === EXTRACT STAGE COMPLETED | total_rows=942,554 | duration=35.26s ===
+2026-11-22 09:37:29 | INFO     | etl.transform | === START TRANSFORM & PREPROCESSING STAGE | run_id=TRF-20261122-093729-cee075 ===
+2026-11-22 09:37:29 | INFO     | etl.transform | Reading raw staging tables from PostgreSQL...
+2026-11-22 09:37:39 | INFO     | etl.transform | AQI SQL daily aggregation: 842,160 hourly rows -> 35,090 daily city-date rows (dropped 145 null US_AQI hourly rows).
+2026-11-22 09:37:41 | INFO     | etl.transform | Generating realistic enriched fact_sales transactions (50,000 rows, seeded=42, labeled simulated)...
+2026-11-22 09:37:41 | INFO     | etl.transform | Exported dim_date.csv                 ->    1,210 rows (0.08 MB)
+2026-11-22 09:37:41 | INFO     | etl.transform | Exported dim_location.csv             ->       29 rows (0.0 MB)
+2026-11-22 09:37:41 | INFO     | etl.transform | Exported dim_category.csv             ->        5 rows (0.0 MB)
+2026-11-22 09:37:41 | INFO     | etl.transform | Exported dim_channel.csv              ->        2 rows (0.0 MB)
+2026-11-22 09:37:41 | INFO     | etl.transform | Exported dim_user_profile.csv         ->       61 rows (0.01 MB)
+2026-11-22 09:37:41 | INFO     | etl.transform | Exported dim_product.csv              ->   19,024 rows (2.65 MB)
+2026-11-22 09:37:42 | INFO     | etl.transform | Exported fact_sales.csv               ->   50,000 rows (3.6 MB)
+2026-11-22 09:37:43 | INFO     | etl.transform | Exported fact_environmental_aqi.csv   ->   35,090 rows (3.01 MB)
+2026-11-22 09:37:43 | INFO     | etl.transform | Exported fact_fitness_demand.csv      ->       16 rows (0.0 MB)
+2026-11-22 09:37:43 | INFO     | etl.transform | Exported fact_lifestyle_sleep_health.csv ->      374 rows (0.02 MB)
+2026-11-22 09:37:43 | INFO     | etl.transform | === TRANSFORM STAGE COMPLETED | duration=13.66s ===
+2026-11-22 09:55:25 | INFO     | etl.load | === START LOAD STAGE (GALAXY SCHEMA DWH) | run_id=LOD-20261122-095525-b9e596 ===
+2026-11-22 09:55:25 | INFO     | etl.load | Pre-check PASSED: all 10 processed CSV files exist.
+2026-11-22 09:55:25 | INFO     | etl.load | Truncating existing Core DWH tables inside atomic transaction...
+2026-11-22 09:55:26 | INFO     | etl.load | Loaded dwh.dim_date                       ->    1,210 rows in 0.09s
+2026-11-22 09:55:26 | INFO     | etl.load | Loaded dwh.dim_location                   ->       29 rows in 0.01s
+2026-11-22 09:55:26 | INFO     | etl.load | Loaded dwh.dim_category                   ->        5 rows in 0.01s
+2026-11-22 09:55:26 | INFO     | etl.load | Loaded dwh.dim_channel                    ->        2 rows in 0.01s
+2026-11-22 09:55:26 | INFO     | etl.load | Loaded dwh.dim_user_profile               ->       61 rows in 0.05s
+2026-11-22 09:55:28 | INFO     | etl.load | Loaded dwh.dim_product                    ->   19,024 rows in 1.65s
+2026-11-22 09:55:34 | INFO     | etl.load | Loaded dwh.fact_environmental_aqi         ->   35,090 rows in 6.18s
+2026-11-22 09:55:34 | INFO     | etl.load | Loaded dwh.fact_fitness_demand            ->       16 rows in 0.02s
+2026-11-22 09:55:34 | INFO     | etl.load | Loaded dwh.fact_lifestyle_sleep_health    ->      374 rows in 0.11s
+2026-11-22 09:55:50 | INFO     | etl.load | Loaded dwh.fact_sales                     ->   50,000 rows in 15.95s
+2026-11-22 09:55:50 | INFO     | etl.load | === LOAD STAGE COMPLETED | total_rows=105,811 | duration=24.45s ===
+2026-11-22 10:06:20 | INFO     | etl.datamart | === START TAHAP 6A - BUILD DATA MART VIEWS | run_id=DM-20261122-100620-d2ffd1 ===
+2026-11-22 10:06:21 | INFO     | etl.datamart | === TAHAP 6A COMPLETED | views=5 | duration=0.38s ===
+2026-11-22 10:25:53 | INFO     | backup.pg_backup | === START AUTOMATED BACKUP (pg_dump + SHA-256) | run_id=BKP-20261122-102553-8c5436 ===
+2026-11-22 10:25:56 | INFO     | backup.pg_backup | === BACKUP COMPLETED & VERIFIED | file=yuuukosoovexa_dwh_20261122_102553.sql.gz | size=2.77 MB | sha256=c9258d04d754bd1c0fca4bf1e3ca8ade2a2f7d1fa160d4561a336cf637ccd6c1 | duration=2.58s ===
+2026-11-22 15:51:55 | INFO     | etl.validate | === START TAHAP 7 - AUTOMATED DATA VALIDATION | run_id=VAL-20261122-155155-ac16b5 ===
+2026-11-22 15:51:56 | INFO     | etl.validate | === TAHAP 7 VALIDATION COMPLETED | passed=27/27 | duration=1.82s ===

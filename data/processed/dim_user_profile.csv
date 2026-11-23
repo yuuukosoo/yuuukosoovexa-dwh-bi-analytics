@@ -1,0 +1,62 @@
+user_profile_key,profile_source,gender,age_group,bmi_category,fitness_goal,occupation,exercise_schedule,meal_plan
+1,GYM,Female,Adult (18-45),Normal,Fat Burn,Active Gym Member,"Moderate cardio, Strength training, and 5000 steps walking","Balanced diet with moderate protein and carbohydrates: Chicken breast, brown rice, spinach, eggs, apple"
+2,GYM,Female,Adult (18-45),Obese,Fat Burn,Active Gym Member,"Low-impact cardio, Swimming, and 10000 steps walking","Low-calorie, nutrient-dense diet with portion control: carrot sticks,grilled chicken breast,steamed broccoli, Greek yogurt, mixed nuts, baked salmon, leafy greens, roasted sweet potatoes"
+3,GYM,Female,Adult (18-45),Overweight,Fat Burn,Active Gym Member,"High-intensity interval training (HIIT), Cardio, and 8000 steps walking","Low-carb, high-fiber diet: Avocado, grilled fish, broccoli, almonds, leafy greens"
+4,GYM,Female,Adult (18-45),Underweight,Fat Burn,Active Gym Member,"Light weightlifting, Yoga, and 2000 steps walking","High-calorie, protein-rich diet: Whole milk, peanut butter, eggs, salmon, sweet potatoes"
+5,GYM,Female,Adult (18-45),Normal,Muscle Gain,Active Gym Member,"Moderate cardio, Strength training, and 5000 steps walking","Balanced diet with moderate protein and carbohydrates: Chicken breast, brown rice, spinach, eggs, apple"
+6,GYM,Female,Adult (18-45),Obese,Muscle Gain,Active Gym Member,"Low-impact cardio, Swimming, and 10000 steps walking","Low-calorie, nutrient-dense diet with portion control: carrot sticks,grilled chicken breast,steamed broccoli, Greek yogurt, mixed nuts, baked salmon, leafy greens, roasted sweet potatoes"
+7,GYM,Female,Adult (18-45),Overweight,Muscle Gain,Active Gym Member,"High-intensity interval training (HIIT), Cardio, and 8000 steps walking","Low-carb, high-fiber diet: Avocado, grilled fish, broccoli, almonds, leafy greens"
+8,GYM,Female,Adult (18-45),Underweight,Muscle Gain,Active Gym Member,"Light weightlifting, Yoga, and 2000 steps walking","High-calorie, protein-rich diet: Whole milk, peanut butter, eggs, salmon, sweet potatoes"
+9,GYM,Male,Adult (18-45),Normal,Fat Burn,Active Gym Member,"Moderate cardio, Strength training, and 5000 steps walking","Balanced diet with moderate protein and carbohydrates: Chicken breast, brown rice, spinach, eggs, apple"
+10,GYM,Male,Adult (18-45),Obese,Fat Burn,Active Gym Member,"Low-impact cardio, Swimming, and 10000 steps walking","Low-calorie, nutrient-dense diet with portion control: carrot sticks,grilled chicken breast,steamed broccoli, Greek yogurt, mixed nuts, baked salmon, leafy greens, roasted sweet potatoes"
+11,GYM,Male,Adult (18-45),Overweight,Fat Burn,Active Gym Member,"High-intensity interval training (HIIT), Cardio, and 8000 steps walking","Low-carb, high-fiber diet: Avocado, grilled fish, broccoli, almonds, leafy greens"
+12,GYM,Male,Adult (18-45),Underweight,Fat Burn,Active Gym Member,"Light weightlifting, Yoga, and 2000 steps walking","High-calorie, protein-rich diet: Whole milk, peanut butter, eggs, salmon, sweet potatoes"
+13,GYM,Male,Adult (18-45),Normal,Muscle Gain,Active Gym Member,"Moderate cardio, Strength training, and 5000 steps walking","Balanced diet with moderate protein and carbohydrates: Chicken breast, brown rice, spinach, eggs, apple"
+14,GYM,Male,Adult (18-45),Obese,Muscle Gain,Active Gym Member,"Low-impact cardio, Swimming, and 10000 steps walking","Low-calorie, nutrient-dense diet with portion control: carrot sticks,grilled chicken breast,steamed broccoli, Greek yogurt, mixed nuts, baked salmon, leafy greens, roasted sweet potatoes"
+15,GYM,Male,Adult (18-45),Overweight,Muscle Gain,Active Gym Member,"High-intensity interval training (HIIT), Cardio, and 8000 steps walking","Low-carb, high-fiber diet: Avocado, grilled fish, broccoli, almonds, leafy greens"
+16,GYM,Male,Adult (18-45),Underweight,Muscle Gain,Active Gym Member,"Light weightlifting, Yoga, and 2000 steps walking","High-calorie, protein-rich diet: Whole milk, peanut butter, eggs, salmon, sweet potatoes"
+17,SLEEP_STUDY,Male,Young Adult (18-29),Overweight,Weight & Metabolic Balance,Software Engineer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+18,SLEEP_STUDY,Male,Young Adult (18-29),Normal,Stress & Sleep Recovery,Doctor,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+19,SLEEP_STUDY,Male,Young Adult (18-29),Obese,Stress & Sleep Recovery,Sales Representative,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+20,SLEEP_STUDY,Male,Young Adult (18-29),Obese,Stress & Sleep Recovery,Software Engineer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+21,SLEEP_STUDY,Male,Young Adult (18-29),Obese,Stress & Sleep Recovery,Teacher,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+22,SLEEP_STUDY,Male,Young Adult (18-29),Normal,General Wellness,Doctor,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+23,SLEEP_STUDY,Female,Young Adult (18-29),Normal,Stress & Sleep Recovery,Nurse,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+24,SLEEP_STUDY,Male,Mid-Career (30-39),Normal,General Wellness,Doctor,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+25,SLEEP_STUDY,Female,Mid-Career (30-39),Normal,Stress & Sleep Recovery,Nurse,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+26,SLEEP_STUDY,Female,Mid-Career (30-39),Normal,General Wellness,Nurse,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+27,SLEEP_STUDY,Male,Mid-Career (30-39),Normal,Stress & Sleep Recovery,Doctor,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+28,SLEEP_STUDY,Male,Mid-Career (30-39),Normal,General Wellness,Engineer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+29,SLEEP_STUDY,Male,Mid-Career (30-39),Normal,General Wellness,Accountant,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+30,SLEEP_STUDY,Female,Mid-Career (30-39),Overweight,Weight & Metabolic Balance,Scientist,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+31,SLEEP_STUDY,Female,Mid-Career (30-39),Overweight,Stress & Sleep Recovery,Scientist,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+32,SLEEP_STUDY,Male,Mid-Career (30-39),Overweight,Weight & Metabolic Balance,Teacher,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+33,SLEEP_STUDY,Male,Mid-Career (30-39),Normal,General Wellness,Software Engineer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+34,SLEEP_STUDY,Female,Mid-Career (30-39),Normal,General Wellness,Accountant,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+35,SLEEP_STUDY,Male,Mid-Career (30-39),Obese,Weight & Metabolic Balance,Lawyer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+36,SLEEP_STUDY,Female,Mid-Career (30-39),Normal,General Wellness,Teacher,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+37,SLEEP_STUDY,Male,Mid-Career (30-39),Overweight,Stress & Sleep Recovery,Teacher,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+38,SLEEP_STUDY,Female,Mid-Career (30-39),Overweight,Weight & Metabolic Balance,Nurse,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+39,SLEEP_STUDY,Male,Mid-Career (30-39),Normal,General Wellness,Lawyer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+40,SLEEP_STUDY,Female,Mid-Career (30-39),Obese,Weight & Metabolic Balance,Lawyer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+41,SLEEP_STUDY,Male,Mid-Career (30-39),Overweight,Stress & Sleep Recovery,Engineer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+42,SLEEP_STUDY,Female,Mid-Career (30-39),Normal,General Wellness,Lawyer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+43,SLEEP_STUDY,Female,Senior Adult (40-49),Normal,General Wellness,Accountant,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+44,SLEEP_STUDY,Male,Senior Adult (40-49),Normal,General Wellness,Lawyer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+45,SLEEP_STUDY,Male,Senior Adult (40-49),Normal,General Wellness,Engineer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+46,SLEEP_STUDY,Male,Senior Adult (40-49),Overweight,Weight & Metabolic Balance,Lawyer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+47,SLEEP_STUDY,Male,Senior Adult (40-49),Overweight,Stress & Sleep Recovery,Salesperson,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+48,SLEEP_STUDY,Female,Senior Adult (40-49),Overweight,Stress & Sleep Recovery,Teacher,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+49,SLEEP_STUDY,Female,Senior Adult (40-49),Overweight,Weight & Metabolic Balance,Teacher,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+50,SLEEP_STUDY,Male,Senior Adult (40-49),Normal,Stress & Sleep Recovery,Engineer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+51,SLEEP_STUDY,Male,Senior Adult (40-49),Overweight,Weight & Metabolic Balance,Engineer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+52,SLEEP_STUDY,Male,Senior Adult (40-49),Overweight,Stress & Sleep Recovery,Engineer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+53,SLEEP_STUDY,Female,Senior Adult (40-49),Overweight,Weight & Metabolic Balance,Manager,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+54,SLEEP_STUDY,Male,Senior Adult (40-49),Obese,Weight & Metabolic Balance,Doctor,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+55,SLEEP_STUDY,Female,Senior Adult (40-49),Overweight,Stress & Sleep Recovery,Nurse,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+56,SLEEP_STUDY,Female,Mature (50+),Overweight,Stress & Sleep Recovery,Nurse,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+57,SLEEP_STUDY,Female,Mature (50+),Normal,General Wellness,Engineer,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+58,SLEEP_STUDY,Female,Mature (50+),Normal,General Wellness,Nurse,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+59,SLEEP_STUDY,Female,Mature (50+),Overweight,Stress & Sleep Recovery,Accountant,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+60,SLEEP_STUDY,Female,Mature (50+),Overweight,Weight & Metabolic Balance,Nurse,Daily Step & Activity Monitoring,Clinical Lifestyle Observation
+61,SLEEP_STUDY,Female,Mature (50+),Normal,General Wellness,Doctor,Daily Step & Activity Monitoring,Clinical Lifestyle Observation

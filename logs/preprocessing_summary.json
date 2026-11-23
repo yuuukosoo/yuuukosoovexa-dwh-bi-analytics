@@ -1,0 +1,103 @@
+{
+  "run_id": "TRF-20261122-093729-cee075",
+  "generated_at": "2026-11-22 09:37:29",
+  "before_vs_after": [
+    {
+      "dataset": "Flipkart Health Supplements",
+      "rows_before": 3076,
+      "rows_after": 3076,
+      "rows_removed": 0,
+      "key_fixes": "Decoded latin-1 & ';', fixed European comma rating ('4,4'->4.4), imputed 681 null highlights, computed discount_pct"
+    },
+    {
+      "dataset": "Tata 1mg Healthcare Catalog",
+      "rows_before": 16944,
+      "rows_after": 15948,
+      "rows_removed": 996,
+      "key_fixes": "Removed 996 exact duplicates, stripped '₹' & 'ratings' text, corrected inverted MRP/Selling Price columns, classified into 5 categories"
+    },
+    {
+      "dataset": "India Air Quality Index (AQI)",
+      "rows_before": 842160,
+      "rows_after": 35090,
+      "rows_removed": 145,
+      "key_fixes": "Dropped 100%-null sensor cols, filtered 145 null US_AQI rows, imputed EPA AQI_Category, aggregated 842k hourly obs to daily City x Date grain"
+    },
+    {
+      "dataset": "Gym & Fitness Demand Profile",
+      "rows_before": 80000,
+      "rows_after": 16,
+      "rows_removed": 0,
+      "key_fixes": "Promoted shifted header, standardized BMI labels, aggregated all 80,000 profiles into 16 clean demographic x fitness segments (sum verified = 80,000)"
+    },
+    {
+      "dataset": "Sleep Health & Lifestyle",
+      "rows_before": 374,
+      "rows_after": 374,
+      "rows_removed": 0,
+      "key_fixes": "Imputed 219 null Sleep Disorder -> 'None', normalized BMI ('Normal Weight'->'Normal'), split Blood Pressure into systolic_bp & diastolic_bp"
+    }
+  ],
+  "processed_tables": {
+    "dim_date": {
+      "rows": 1210,
+      "columns": 12,
+      "size_mb": 0.08,
+      "file": "data/processed/dim_date.csv"
+    },
+    "dim_location": {
+      "rows": 29,
+      "columns": 7,
+      "size_mb": 0.0,
+      "file": "data/processed/dim_location.csv"
+    },
+    "dim_category": {
+      "rows": 5,
+      "columns": 5,
+      "size_mb": 0.0,
+      "file": "data/processed/dim_category.csv"
+    },
+    "dim_channel": {
+      "rows": 2,
+      "columns": 6,
+      "size_mb": 0.0,
+      "file": "data/processed/dim_channel.csv"
+    },
+    "dim_user_profile": {
+      "rows": 61,
+      "columns": 9,
+      "size_mb": 0.01,
+      "file": "data/processed/dim_user_profile.csv"
+    },
+    "dim_product": {
+      "rows": 19024,
+      "columns": 16,
+      "size_mb": 2.65,
+      "file": "data/processed/dim_product.csv"
+    },
+    "fact_sales": {
+      "rows": 50000,
+      "columns": 14,
+      "size_mb": 3.6,
+      "file": "data/processed/fact_sales.csv"
+    },
+    "fact_environmental_aqi": {
+      "rows": 35090,
+      "columns": 15,
+      "size_mb": 3.01,
+      "file": "data/processed/fact_environmental_aqi.csv"
+    },
+    "fact_fitness_demand": {
+      "rows": 16,
+      "columns": 6,
+      "size_mb": 0.0,
+      "file": "data/processed/fact_fitness_demand.csv"
+    },
+    "fact_lifestyle_sleep_health": {
+      "rows": 374,
+      "columns": 14,
+      "size_mb": 0.02,
+      "file": "data/processed/fact_lifestyle_sleep_health.csv"
+    }
+  }
+}

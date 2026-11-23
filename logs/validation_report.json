@@ -1,0 +1,251 @@
+{
+  "run_id": "VAL-20261122-155155-ac16b5",
+  "generated_at": "2026-11-22 15:51:56",
+  "duration_seconds": 1.82,
+  "summary": {
+    "total_checks": 27,
+    "passed": 27,
+    "failed": 0,
+    "overall_status": "ALL PASSED"
+  },
+  "golden_kpi_benchmarks_for_powerbi": {
+    "total_transactions": 50000,
+    "total_units_sold": 82123,
+    "total_gross_revenue_inr": 76021551.62,
+    "total_net_revenue_inr": 53680253.04,
+    "avg_order_value_inr": 1073.61,
+    "avg_discount_pct": 22.06,
+    "channel_breakdown": [
+      {
+        "channel": "Flipkart Health",
+        "transactions": 19835,
+        "units": 30813,
+        "net_revenue_inr": 30075816.0
+      },
+      {
+        "channel": "Tata 1mg",
+        "transactions": 30165,
+        "units": 51310,
+        "net_revenue_inr": 23604437.04
+      }
+    ]
+  },
+  "checks": [
+    {
+      "suite": "1. Row Reconciliation",
+      "check_name": "Flipkart CSV -> Staging",
+      "expected": "3076",
+      "actual": "3076",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "1. Row Reconciliation",
+      "check_name": "Tata 1mg CSV -> Staging",
+      "expected": "16944",
+      "actual": "16944",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "1. Row Reconciliation",
+      "check_name": "India AQI CSV -> Staging",
+      "expected": "842160",
+      "actual": "842160",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "1. Row Reconciliation",
+      "check_name": "GYM CSV (-1 shifted header) -> Staging",
+      "expected": "80000",
+      "actual": "80000",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "1. Row Reconciliation",
+      "check_name": "Sleep Health CSV -> Staging",
+      "expected": "374",
+      "actual": "374",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "1. Row Reconciliation",
+      "check_name": "Staging Products (-996 dups) -> dim_product",
+      "expected": "19024",
+      "actual": "19024",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "1. Row Reconciliation",
+      "check_name": "fact_sales -> vw_executive_sales",
+      "expected": "50000",
+      "actual": "50000",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "1. Row Reconciliation",
+      "check_name": "fact_environmental_aqi -> vw_environmental_aqi_sales",
+      "expected": "35090",
+      "actual": "35090",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "1. Row Reconciliation",
+      "check_name": "Staging 80,000 GYM -> SUM(member_count) DataMart",
+      "expected": "80000",
+      "actual": "80000",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "1. Row Reconciliation",
+      "check_name": "fact_lifestyle_sleep -> vw_sleep_stress_lifestyle",
+      "expected": "374",
+      "actual": "374",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "2. Aggregate Accuracy",
+      "check_name": "Net Revenue (DWH vs vw_executive_sales)",
+      "expected": "53680253.04",
+      "actual": "53680253.04",
+      "status": "PASS",
+      "note": "Diff = 0.00"
+    },
+    {
+      "suite": "2. Aggregate Accuracy",
+      "check_name": "Net Revenue (DWH vs vw_sales_pricing_sku)",
+      "expected": "53680253.04",
+      "actual": "53680253.04",
+      "status": "PASS",
+      "note": "Diff = 0.00"
+    },
+    {
+      "suite": "2. Aggregate Accuracy",
+      "check_name": "Units Sold (DWH vs DataMarts)",
+      "expected": "82123",
+      "actual": "82123",
+      "status": "PASS",
+      "note": "Diff = 0"
+    },
+    {
+      "suite": "2. Aggregate Accuracy",
+      "check_name": "Mean Daily US_AQI (DWH vs DataMart)",
+      "expected": "96.7998",
+      "actual": "96.7998",
+      "status": "PASS",
+      "note": "Diff = 0.0000"
+    },
+    {
+      "suite": "3. Referential Integrity",
+      "check_name": "Orphan fact_sales -> dim_product",
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "3. Referential Integrity",
+      "check_name": "Orphan fact_sales -> dim_date",
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "3. Referential Integrity",
+      "check_name": "Orphan fact_environmental_aqi -> dim_location",
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "3. Referential Integrity",
+      "check_name": "Orphan fact_fitness_demand -> dim_user_profile",
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "3. Referential Integrity",
+      "check_name": "Orphan fact_lifestyle_sleep -> dim_user_profile",
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "4. Data Quality Rules",
+      "check_name": "Zero selling_price <= 0 (dim_product)",
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "4. Data Quality Rules",
+      "check_name": "Zero inverted selling_price > mrp (dim_product)",
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "4. Data Quality Rules",
+      "check_name": "Zero null/empty sleep_disorder",
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "4. Data Quality Rules",
+      "check_name": "Zero null avg_us_aqi (fact_environmental_aqi)",
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "4. Data Quality Rules",
+      "check_name": "100% simulated enrichment labeled (UAS Rule C)",
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "5. RBAC Security",
+      "check_name": "Least Privilege (role_executive)",
+      "expected": "staging=False, dwh=False, datamart=True",
+      "actual": "staging=False, dwh=False, datamart=True",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "5. RBAC Security",
+      "check_name": "Least Privilege (role_store_manager)",
+      "expected": "staging=False, dwh=False, datamart=True",
+      "actual": "staging=False, dwh=False, datamart=True",
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "suite": "5. RBAC Security",
+      "check_name": "Least Privilege (role_inventory_specialist)",
+      "expected": "staging=False, dwh=False, datamart=True",
+      "actual": "staging=False, dwh=False, datamart=True",
+      "status": "PASS",
+      "note": ""
+    }
+  ]
+}

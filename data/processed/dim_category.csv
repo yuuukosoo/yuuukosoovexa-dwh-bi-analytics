@@ -1,0 +1,6 @@
+category_key,category_code,category_name,health_focus,target_trigger
+1,CAT_VIT,Vitamin Supplement,"Immunity, Respiratory Defense, and Daily Micronutrients",High AQI / Pollution Spikes & Preventive Immunity
+2,CAT_PRO,Protein Supplement,"Muscle Hypertrophy, Recovery, and Active Sports Nutrition",Gym Muscle Gain & High Physical Activity
+3,CAT_MLK,Milk Drink Mixes,"Family Nutrition, Weight Balance, and Nutritional Replacement",Daily Household Nutrition & BMI Normalization
+4,CAT_ENG,Energy Drinks,"Fat Burn, Stamina, Hydration, and Stress-Fatigue Recovery","Fat Burn Workouts, Summer Heat & Work Fatigue"
+5,CAT_DIG,Digestive Probiotic,"Gut Microbiome Balance, Sleep-Gut Axis, and Metabolic Health","Urban Stress, Irregular Diet & Digestive Wellness"

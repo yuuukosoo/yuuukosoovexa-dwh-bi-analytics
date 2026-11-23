@@ -1,0 +1,1318 @@
+{
+  "generated_at": "2026-11-21 21:37:41",
+  "total_files": 5,
+  "total_raw_rows": 942555,
+  "datasets": [
+    {
+      "label": "Flipkart Health Supplements",
+      "filename": "Health_Suppliments_Flipkart_02_04_2022.csv",
+      "size_mb": 1.21,
+      "encoding": "latin-1",
+      "delimiter": ";",
+      "rows": 3076,
+      "columns": 20,
+      "duplicate_rows": 0,
+      "total_missing_cells": 681,
+      "read_seconds": 0.1,
+      "column_details": [
+        {
+          "column": "category",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5,
+          "sample_values": [
+            "Vitamin Supplement",
+            "Vitamin Supplement"
+          ]
+        },
+        {
+          "column": "title",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2897,
+          "sample_values": [
+            "Revital Women Multivitamin with Calcium, Zinc, Ginseng for I",
+            "MUSCLEBLAZE VITE Multivitamin"
+          ]
+        },
+        {
+          "column": "quantity",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1246,
+          "sample_values": [
+            "30 Tablets",
+            "90 No"
+          ]
+        },
+        {
+          "column": "brand",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 552,
+          "sample_values": [
+            "Revital",
+            "MUSCLEBLAZE"
+          ]
+        },
+        {
+          "column": "url",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3076,
+          "sample_values": [
+            "http://dl.flipkart.com/dl/revital-women-multivitamin-calcium",
+            "http://dl.flipkart.com/dl/muscleblaze-vite-multivitamin/p/it"
+          ]
+        },
+        {
+          "column": "product_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3076,
+          "sample_values": [
+            "VSLFUCNZ74TDDANJ",
+            "VSLFGMHYFZXTEFSW"
+          ]
+        },
+        {
+          "column": "listing_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3076,
+          "sample_values": [
+            "LSTVSLFUCNZ74TDDANJAGY8AW",
+            "LSTVSLFGMHYFZXTEFSWCOQLV7"
+          ]
+        },
+        {
+          "column": "highlights",
+          "dtype": "str",
+          "null_count": 681,
+          "null_pct": 22.14,
+          "nunique": 1100,
+          "sample_values": [
+            "Multi Vitamin Supplements Tablet Form Suitable For: Vegetari",
+            "Multi Vitamin Supplements Tablet Form Suitable For: Vegetari"
+          ]
+        },
+        {
+          "column": "availability",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "sample_values": [
+            "IN_STOCK",
+            "IN_STOCK"
+          ]
+        },
+        {
+          "column": "selling_price",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1022,
+          "sample_values": [
+            "243",
+            "455"
+          ]
+        },
+        {
+          "column": "original_price",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 692,
+          "sample_values": [
+            "345",
+            "899"
+          ]
+        },
+        {
+          "column": "currency",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1,
+          "sample_values": [
+            "INR",
+            "INR"
+          ]
+        },
+        {
+          "column": "avg_rating",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 26,
+          "sample_values": [
+            "4,4",
+            "4,2"
+          ]
+        },
+        {
+          "column": "rating_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 844,
+          "sample_values": [
+            "8190",
+            "41010"
+          ]
+        },
+        {
+          "column": "review_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 398,
+          "sample_values": [
+            "611",
+            "3527"
+          ]
+        },
+        {
+          "column": "1_stars_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 295,
+          "sample_values": [
+            "211",
+            "2271"
+          ]
+        },
+        {
+          "column": "2_stars_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 231,
+          "sample_values": [
+            "198",
+            "1305"
+          ]
+        },
+        {
+          "column": "3_stars_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 348,
+          "sample_values": [
+            "775",
+            "3980"
+          ]
+        },
+        {
+          "column": "4_stars_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 469,
+          "sample_values": [
+            "2096",
+            "10320"
+          ]
+        },
+        {
+          "column": "5_stars_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 703,
+          "sample_values": [
+            "4910",
+            "23134"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Tata 1mg Healthcare Catalog",
+      "filename": "1mgData.csv",
+      "size_mb": 1.39,
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "rows": 16944,
+      "columns": 6,
+      "duplicate_rows": 996,
+      "total_missing_cells": 0,
+      "read_seconds": 0.05,
+      "column_details": [
+        {
+          "column": "Name",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 14992,
+          "sample_values": [
+            "Tata 1mg Glucosamine HCL 1500 mg Tablets for Joint Health wi",
+            "Tata 1mg Multivitamin Supreme, Zinc, Calcium and Vitamin D I"
+          ]
+        },
+        {
+          "column": "pack_size",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1007,
+          "sample_values": [
+            "bottle of 60 tablets",
+            "bottle of 60 capsules"
+          ]
+        },
+        {
+          "column": "rating_count",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 298,
+          "sample_values": [
+            "284 ratings",
+            "820 ratings"
+          ]
+        },
+        {
+          "column": "rating",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 32,
+          "sample_values": [
+            "4.1",
+            "4.1"
+          ]
+        },
+        {
+          "column": "price",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2555,
+          "sample_values": [
+            "₹995",
+            "₹995"
+          ]
+        },
+        {
+          "column": "mrp",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3409,
+          "sample_values": [
+            "₹399",
+            "₹498"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "India Air Quality Index (AQI)",
+      "filename": "INDIA_AQI_COMPLETE_20251126.csv",
+      "size_mb": 269.53,
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "rows": 842160,
+      "columns": 71,
+      "duplicate_rows": 0,
+      "total_missing_cells": 6740743,
+      "read_seconds": 11.74,
+      "column_details": [
+        {
+          "column": "City",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 29,
+          "sample_values": [
+            "Agartala",
+            "Agartala"
+          ]
+        },
+        {
+          "column": "State",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 29,
+          "sample_values": [
+            "Tripura",
+            "Tripura"
+          ]
+        },
+        {
+          "column": "Latitude",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 29,
+          "sample_values": [
+            "23.8315",
+            "23.8315"
+          ]
+        },
+        {
+          "column": "Longitude",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 29,
+          "sample_values": [
+            "91.2868",
+            "91.2868"
+          ]
+        },
+        {
+          "column": "Datetime",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 29040,
+          "sample_values": [
+            "2022-08-05 00:00:00",
+            "2022-08-05 01:00:00"
+          ]
+        },
+        {
+          "column": "Year",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4,
+          "sample_values": [
+            "2022",
+            "2022"
+          ]
+        },
+        {
+          "column": "Month",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 12,
+          "sample_values": [
+            "8",
+            "8"
+          ]
+        },
+        {
+          "column": "Day",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 31,
+          "sample_values": [
+            "5",
+            "5"
+          ]
+        },
+        {
+          "column": "Hour",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 24,
+          "sample_values": [
+            "0",
+            "1"
+          ]
+        },
+        {
+          "column": "Day_of_Week",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7,
+          "sample_values": [
+            "4",
+            "4"
+          ]
+        },
+        {
+          "column": "Day_Name",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7,
+          "sample_values": [
+            "Friday",
+            "Friday"
+          ]
+        },
+        {
+          "column": "Week_of_Year",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 52,
+          "sample_values": [
+            "31",
+            "31"
+          ]
+        },
+        {
+          "column": "Is_Weekend",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "sample_values": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "column": "Quarter",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4,
+          "sample_values": [
+            "3",
+            "3"
+          ]
+        },
+        {
+          "column": "Season",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4,
+          "sample_values": [
+            "Monsoon",
+            "Monsoon"
+          ]
+        },
+        {
+          "column": "Time_of_Day",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6,
+          "sample_values": [
+            "Night",
+            "Night"
+          ]
+        },
+        {
+          "column": "Temp_2m_C",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 566,
+          "sample_values": [
+            "26.7",
+            "26.4"
+          ]
+        },
+        {
+          "column": "Temp_80m_C",
+          "dtype": "float64",
+          "null_count": 842160,
+          "null_pct": 100.0,
+          "nunique": 0,
+          "sample_values": []
+        },
+        {
+          "column": "Temp_120m_C",
+          "dtype": "float64",
+          "null_count": 842160,
+          "null_pct": 100.0,
+          "nunique": 0,
+          "sample_values": []
+        },
+        {
+          "column": "Temp_180m_C",
+          "dtype": "float64",
+          "null_count": 842160,
+          "null_pct": 100.0,
+          "nunique": 0,
+          "sample_values": []
+        },
+        {
+          "column": "Humidity_Percent",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 98,
+          "sample_values": [
+            "91",
+            "93"
+          ]
+        },
+        {
+          "column": "Dew_Point_C",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 505,
+          "sample_values": [
+            "25.1",
+            "25.2"
+          ]
+        },
+        {
+          "column": "Humidity_Category",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5,
+          "sample_values": [
+            "Very_Humid",
+            "Very_Humid"
+          ]
+        },
+        {
+          "column": "Wind_Speed_10m_kmh",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 433,
+          "sample_values": [
+            "5.4",
+            "4.5"
+          ]
+        },
+        {
+          "column": "Wind_Speed_80m_kmh",
+          "dtype": "float64",
+          "null_count": 842160,
+          "null_pct": 100.0,
+          "nunique": 0,
+          "sample_values": []
+        },
+        {
+          "column": "Wind_Speed_120m_kmh",
+          "dtype": "float64",
+          "null_count": 842160,
+          "null_pct": 100.0,
+          "nunique": 0,
+          "sample_values": []
+        },
+        {
+          "column": "Wind_Dir_10m",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 361,
+          "sample_values": [
+            "172",
+            "166"
+          ]
+        },
+        {
+          "column": "Wind_Gusts_kmh",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 242,
+          "sample_values": [
+            "11.2",
+            "9.0"
+          ]
+        },
+        {
+          "column": "Wind_Category",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5,
+          "sample_values": [
+            "Moderate",
+            "Light"
+          ]
+        },
+        {
+          "column": "Wind_Stagnation",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "sample_values": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "column": "Precipitation_mm",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 255,
+          "sample_values": [
+            "0.0",
+            "0.0"
+          ]
+        },
+        {
+          "column": "Rain_mm",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 255,
+          "sample_values": [
+            "0.0",
+            "0.0"
+          ]
+        },
+        {
+          "column": "Is_Raining",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "sample_values": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "column": "Heavy_Rain",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "sample_values": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "column": "Pressure_MSL_hPa",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 411,
+          "sample_values": [
+            "1004.4",
+            "1003.9"
+          ]
+        },
+        {
+          "column": "Surface_Pressure_hPa",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1928,
+          "sample_values": [
+            "1003.0",
+            "1002.5"
+          ]
+        },
+        {
+          "column": "Solar_Radiation_Wm2",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1040,
+          "sample_values": [
+            "0.0",
+            "0.0"
+          ]
+        },
+        {
+          "column": "Direct_Radiation_Wm2",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 908,
+          "sample_values": [
+            "0.0",
+            "0.0"
+          ]
+        },
+        {
+          "column": "Diffuse_Radiation_Wm2",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 472,
+          "sample_values": [
+            "0.0",
+            "0.0"
+          ]
+        },
+        {
+          "column": "UV_Index",
+          "dtype": "float64",
+          "null_count": 842160,
+          "null_pct": 100.0,
+          "nunique": 0,
+          "sample_values": []
+        },
+        {
+          "column": "Cloud_Cover_Percent",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 101,
+          "sample_values": [
+            "100",
+            "100"
+          ]
+        },
+        {
+          "column": "Cloud_Low_Percent",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 101,
+          "sample_values": [
+            "0",
+            "3"
+          ]
+        },
+        {
+          "column": "Cloud_Mid_Percent",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 101,
+          "sample_values": [
+            "7",
+            "4"
+          ]
+        },
+        {
+          "column": "Cloud_High_Percent",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 101,
+          "sample_values": [
+            "100",
+            "100"
+          ]
+        },
+        {
+          "column": "Is_Daytime",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "sample_values": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "column": "Sunshine_Seconds",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 62326,
+          "sample_values": [
+            "0.0",
+            "0.0"
+          ]
+        },
+        {
+          "column": "PM2_5_ugm3",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1213,
+          "sample_values": [
+            "14.8",
+            "15.7"
+          ]
+        },
+        {
+          "column": "PM10_ugm3",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1945,
+          "sample_values": [
+            "21.5",
+            "22.8"
+          ]
+        },
+        {
+          "column": "PM_Ratio",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 126158,
+          "sample_values": [
+            "0.6883720930232559",
+            "0.6885964912280701"
+          ]
+        },
+        {
+          "column": "CO_ugm3",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5024,
+          "sample_values": [
+            "197.0",
+            "196.0"
+          ]
+        },
+        {
+          "column": "NO2_ugm3",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2120,
+          "sample_values": [
+            "21.8",
+            "18.5"
+          ]
+        },
+        {
+          "column": "SO2_ugm3",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2512,
+          "sample_values": [
+            "2.7",
+            "3.0"
+          ]
+        },
+        {
+          "column": "O3_ugm3",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 575,
+          "sample_values": [
+            "32.0",
+            "33.0"
+          ]
+        },
+        {
+          "column": "Dust_ugm3",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2504,
+          "sample_values": [
+            "0.0",
+            "0.0"
+          ]
+        },
+        {
+          "column": "NH3_ugm3",
+          "dtype": "float64",
+          "null_count": 842160,
+          "null_pct": 100.0,
+          "nunique": 0,
+          "sample_values": []
+        },
+        {
+          "column": "AOD",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 355,
+          "sample_values": [
+            "0.14",
+            "0.14"
+          ]
+        },
+        {
+          "column": "US_AQI",
+          "dtype": "float64",
+          "null_count": 145,
+          "null_pct": 0.02,
+          "nunique": 1519,
+          "sample_values": [
+            "54.0",
+            "55.0"
+          ]
+        },
+        {
+          "column": "US_AQI_PM25",
+          "dtype": "float64",
+          "null_count": 145,
+          "null_pct": 0.02,
+          "nunique": 358,
+          "sample_values": [
+            "54.0",
+            "55.0"
+          ]
+        },
+        {
+          "column": "US_AQI_PM10",
+          "dtype": "float64",
+          "null_count": 145,
+          "null_pct": 0.02,
+          "nunique": 1527,
+          "sample_values": [
+            "19.0",
+            "19.0"
+          ]
+        },
+        {
+          "column": "US_AQI_NO2",
+          "dtype": "float64",
+          "null_count": 2,
+          "null_pct": 0.0,
+          "nunique": 114,
+          "sample_values": [
+            "11.0",
+            "9.0"
+          ]
+        },
+        {
+          "column": "US_AQI_O3",
+          "dtype": "float64",
+          "null_count": 73,
+          "null_pct": 0.01,
+          "nunique": 306,
+          "sample_values": [
+            "16.0",
+            "14.0"
+          ]
+        },
+        {
+          "column": "US_AQI_CO",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 106,
+          "sample_values": [
+            "2",
+            "2"
+          ]
+        },
+        {
+          "column": "EU_AQI",
+          "dtype": "float64",
+          "null_count": 145,
+          "null_pct": 0.02,
+          "nunique": 863,
+          "sample_values": [
+            "28.0",
+            "28.0"
+          ]
+        },
+        {
+          "column": "EU_AQI_PM25",
+          "dtype": "float64",
+          "null_count": 145,
+          "null_pct": 0.02,
+          "nunique": 292,
+          "sample_values": [
+            "28.0",
+            "28.0"
+          ]
+        },
+        {
+          "column": "EU_AQI_PM10",
+          "dtype": "float64",
+          "null_count": 145,
+          "null_pct": 0.02,
+          "nunique": 867,
+          "sample_values": [
+            "20.0",
+            "21.0"
+          ]
+        },
+        {
+          "column": "AQI_Category",
+          "dtype": "str",
+          "null_count": 2516,
+          "null_pct": 0.3,
+          "nunique": 6,
+          "sample_values": [
+            "Moderate",
+            "Moderate"
+          ]
+        },
+        {
+          "column": "PM25_Category_India",
+          "dtype": "str",
+          "null_count": 2,
+          "null_pct": 0.0,
+          "nunique": 6,
+          "sample_values": [
+            "Good",
+            "Good"
+          ]
+        },
+        {
+          "column": "Temp_Inversion",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1,
+          "sample_values": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "column": "Inversion_Strength_C",
+          "dtype": "float64",
+          "null_count": 842160,
+          "null_pct": 100.0,
+          "nunique": 0,
+          "sample_values": []
+        },
+        {
+          "column": "Festival_Period",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "sample_values": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "column": "Crop_Burning_Season",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "sample_values": [
+            "0",
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Gym & Fitness Demand Profile",
+      "filename": "GYM.csv",
+      "size_mb": 15.4,
+      "encoding": "utf-8-sig",
+      "delimiter": ";",
+      "rows": 80001,
+      "columns": 5,
+      "duplicate_rows": 79984,
+      "total_missing_cells": 0,
+      "read_seconds": 0.29,
+      "column_details": [
+        {
+          "column": "Column1",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3,
+          "sample_values": [
+            "Gender",
+            "Female"
+          ]
+        },
+        {
+          "column": "Column2",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3,
+          "sample_values": [
+            "Goal",
+            "muscle_gain"
+          ]
+        },
+        {
+          "column": "Column3",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5,
+          "sample_values": [
+            "BMI Category",
+            "Normal weight"
+          ]
+        },
+        {
+          "column": "Column4",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5,
+          "sample_values": [
+            "Exercise Schedule",
+            "Moderate cardio, Strength training, and 5000 steps walking"
+          ]
+        },
+        {
+          "column": "Column5",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5,
+          "sample_values": [
+            "Meal Plan",
+            "Balanced diet with moderate protein and carbohydrates: Chick"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Sleep Health & Lifestyle",
+      "filename": "Sleep_health_and_lifestyle_dataset.csv",
+      "size_mb": 0.02,
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "rows": 374,
+      "columns": 13,
+      "duplicate_rows": 0,
+      "total_missing_cells": 219,
+      "read_seconds": 0.03,
+      "column_details": [
+        {
+          "column": "Person ID",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 374,
+          "sample_values": [
+            "1",
+            "2"
+          ]
+        },
+        {
+          "column": "Gender",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "sample_values": [
+            "Male",
+            "Male"
+          ]
+        },
+        {
+          "column": "Age",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 31,
+          "sample_values": [
+            "27",
+            "28"
+          ]
+        },
+        {
+          "column": "Occupation",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 11,
+          "sample_values": [
+            "Software Engineer",
+            "Doctor"
+          ]
+        },
+        {
+          "column": "Sleep Duration",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 27,
+          "sample_values": [
+            "6.1",
+            "6.2"
+          ]
+        },
+        {
+          "column": "Quality of Sleep",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6,
+          "sample_values": [
+            "6",
+            "6"
+          ]
+        },
+        {
+          "column": "Physical Activity Level",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 16,
+          "sample_values": [
+            "42",
+            "60"
+          ]
+        },
+        {
+          "column": "Stress Level",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6,
+          "sample_values": [
+            "6",
+            "8"
+          ]
+        },
+        {
+          "column": "BMI Category",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4,
+          "sample_values": [
+            "Overweight",
+            "Normal"
+          ]
+        },
+        {
+          "column": "Blood Pressure",
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 25,
+          "sample_values": [
+            "126/83",
+            "125/80"
+          ]
+        },
+        {
+          "column": "Heart Rate",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 19,
+          "sample_values": [
+            "77",
+            "75"
+          ]
+        },
+        {
+          "column": "Daily Steps",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 20,
+          "sample_values": [
+            "4200",
+            "10000"
+          ]
+        },
+        {
+          "column": "Sleep Disorder",
+          "dtype": "str",
+          "null_count": 219,
+          "null_pct": 58.56,
+          "nunique": 2,
+          "sample_values": [
+            "Sleep Apnea",
+            "Sleep Apnea"
+          ]
+        }
+      ]
+    }
+  ]
+}
