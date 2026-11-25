@@ -19,8 +19,12 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
 
+import importlib
 from data_loader import ROOT_DIR, load_all_datamarts
 from translations import TRANSLATIONS, t
+import styles as _styles_mod
+if not hasattr(_styles_mod, "build_info_popover_html"):
+    importlib.reload(_styles_mod)
 from styles import (
     PALETTE,
     apply_bento_plotly_style,
