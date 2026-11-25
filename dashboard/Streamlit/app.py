@@ -24,6 +24,7 @@ from translations import TRANSLATIONS, t
 from styles import (
     PALETTE,
     apply_bento_plotly_style,
+    build_info_popover_html,
     build_striped_pill_bar,
     inject_bento_css,
     inject_motion_engine,
@@ -740,9 +741,21 @@ def render_page1():
             leader = ch_agg.sort_values("net_rev", ascending=False).iloc[0]
             share_pct = leader["net_rev"] / net_rev * 100 if net_rev else 0
             leader_num = fmt_inr_compact(leader["net_rev"]).replace("INR ", "")
+            leader_info = build_info_popover_html(
+                t("p1_leader_lbl", lang),
+                (
+                    f"Menampilkan kanal penjualan dengan kontribusi pendapatan bersih tertinggi ({leader['channel_name']} sebesar {share_pct:.1f}%)."
+                    if is_id
+                    else f"Highlights the top revenue-contributing sales channel ({leader['channel_name']} at {share_pct:.1f}% share)."
+                ),
+                "datamart.vw_executive_sales",
+            )
             st.markdown(
                 f'<div class="bento-leader-card">'
+                f'<div class="bento-card-header" style="margin-bottom:0;">'
                 f'<div class="kpi-label" style="color:{PALETTE["muted"]}; margin-bottom:0;">{t("p1_leader_lbl", lang)}</div>'
+                f'{leader_info}'
+                f'</div>'
                 f'<div class="leader-body">'
                 f'<div class="leader-left">'
                 f'<div class="leader-val"><span class="kpi-unit kpi-unit-pre">INR</span><span id="yv_num_p1_leader" class="anim-num">{leader_num}</span></div>'
@@ -988,10 +1001,22 @@ def render_page2():
         top_line_1 = "TOP 50"
         top_line_2 = "SKU Produk" if lang == "id" else "Product SKUs"
         with hdr_l:
+            sku_info = build_info_popover_html(
+                f"{top_line_1} {top_line_2}",
+                (
+                    "Menampilkan 50 SKU produk dengan pendapatan bersih tertinggi. Gunakan kotak pencarian untuk menyaring produk atau pilih SKU untuk melihat analisis mendalam."
+                    if lang == "id"
+                    else "Displays the top 50 product SKUs ranked by net revenue. Use the search bar to filter or select a SKU to inspect detailed pricing."
+                ),
+                "datamart.vw_sales_pricing_sku",
+            )
             st.markdown(
+                f'<div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">'
                 f'<div class="sku-highlight-stack">'
                 f'<div class="sku-highlight-big">{top_line_1}</div>'
                 f'<div class="sku-highlight-sub">{top_line_2}</div>'
+                f'</div>'
+                f'<div style="padding-top:10px; padding-right:4px;">{sku_info}</div>'
                 f'</div>',
                 unsafe_allow_html=True,
             )
@@ -1111,7 +1136,22 @@ def render_page3():
             strip_tooltip=f"{demand_lift:+.1f}% {t('p3_kpi3_badge', lang)}",
         )
         with st.container(border=True, key="card_p3_drill"):
-            st.markdown(f'<div class="kpi-label" style="color:{PALETTE["muted"]}; margin-bottom:10px;">{t("p3_drill_lbl", lang)}</div>', unsafe_allow_html=True)
+            drill_info = build_info_popover_html(
+                t("p3_drill_lbl", lang),
+                (
+                    "Pilih salah satu dari 29 kota India lalu klik tombol untuk membuka analisis mendalam tren AQI dan profil polutan harian kota tersebut."
+                    if is_id
+                    else "Select any of the 29 Indian cities and click inspect to open its daily AQI timeline and pollutant breakdown."
+                ),
+                "Drill-Through Diagnostic",
+            )
+            st.markdown(
+                f'<div class="bento-card-header" style="margin-bottom:10px;">'
+                f'<div class="kpi-label" style="color:{PALETTE["muted"]}; margin-bottom:0;">{t("p3_drill_lbl", lang)}</div>'
+                f'{drill_info}'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
             d_c1, d_c2 = st.columns([6.2, 3.8], gap="small")
             top_cities = city_agg.sort_values("mean_aqi", ascending=False)["city"].tolist()
             with d_c1:

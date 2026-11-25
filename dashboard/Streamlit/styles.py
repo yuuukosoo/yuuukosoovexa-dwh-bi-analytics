@@ -493,7 +493,7 @@ section[data-testid="stSidebar"] div[class*="st-key-sb_sub_"] button span[data-t
     padding: 0 !important;
     flex-direction: row !important;
     align-items: stretch !important;
-    overflow: hidden !important;
+    overflow: visible !important;
 }}
 .bento-split-left {{
     flex: 1;
@@ -508,6 +508,7 @@ section[data-testid="stSidebar"] div[class*="st-key-sb_sub_"] button span[data-t
     flex-shrink: 0;
     position: relative;
     overflow: hidden;
+    border-radius: 0 16px 16px 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -947,10 +948,11 @@ div[data-testid="stButtonGroup"] button[data-testid="stBaseButton-segmented_cont
 
 .bento-card-header {{
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: 8px;
     margin-bottom: 8px;
+    position: relative;
 }}
 .bento-title {{
     font-size: 15px;
@@ -965,6 +967,141 @@ div[data-testid="stButtonGroup"] button[data-testid="stBaseButton-segmented_cont
     color: {PALETTE['muted']};
     margin: 3px 0 0 0;
     line-height: 1.4;
+}}
+
+/* Contextual (i) Information Icon + Scale-Corner Easy-Ease Popover (H10 Help & Documentation) */
+.yv-info-wrap {{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 30;
+}}
+.yv-info-btn {{
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    border: 1px solid {PALETTE['hairline']};
+    background: {'#1a2d25' if PALETTE['is_dark'] else '#f1f4f2'};
+    color: {PALETTE['muted']};
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    transition:
+        background-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}}
+.yv-info-wrap:hover .yv-info-btn,
+.yv-info-wrap:focus-within .yv-info-btn {{
+    background: {PALETTE['btn_bg']};
+    color: {PALETTE['btn_fg']};
+    border-color: {PALETTE['btn_bg']};
+    transform: scale(1.08);
+}}
+.yv-info-pop {{
+    position: absolute;
+    top: calc(100% + 9px);
+    right: -2px;
+    width: 272px;
+    max-width: min(290px, 74vw);
+    padding: 13px 15px 12px 15px;
+    border-radius: 14px;
+    background: {'#162620' if PALETTE['is_dark'] else '#ffffff'};
+    border: 1px solid {'#2a4538' if PALETTE['is_dark'] else '#dce4df'};
+    box-shadow: {'0 16px 38px rgba(0, 0, 0, 0.52)' if PALETTE['is_dark'] else '0 14px 32px rgba(4, 63, 46, 0.14)'};
+    color: {PALETTE['charcoal']};
+    text-align: left;
+    z-index: 9999;
+    transform-origin: top right;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(0.16) translateY(-6px);
+    transition:
+        transform 340ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 230ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 340ms;
+}}
+.yv-info-pop::before {{
+    content: "";
+    position: absolute;
+    top: -12px;
+    right: 0;
+    width: 44px;
+    height: 14px;
+}}
+.yv-info-pop::after {{
+    content: "";
+    position: absolute;
+    top: -5px;
+    right: 9px;
+    width: 9px;
+    height: 9px;
+    background: {'#162620' if PALETTE['is_dark'] else '#ffffff'};
+    border-left: 1px solid {'#2a4538' if PALETTE['is_dark'] else '#dce4df'};
+    border-top: 1px solid {'#2a4538' if PALETTE['is_dark'] else '#dce4df'};
+    transform: rotate(45deg);
+}}
+.yv-info-wrap:hover .yv-info-pop,
+.yv-info-wrap:focus-within .yv-info-pop {{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1) translateY(0);
+}}
+.yv-info-pop-head {{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 6px;
+}}
+.yv-info-pop-dot {{
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: {'#c8f169' if PALETTE['is_dark'] else '#043f2e'};
+    flex-shrink: 0;
+}}
+.yv-info-pop-title {{
+    font-size: 12.5px;
+    font-weight: 700;
+    color: {PALETTE['emerald']};
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+}}
+.yv-info-pop-body {{
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: {PALETTE['charcoal']};
+    margin: 0;
+}}
+.yv-info-pop-meta {{
+    margin-top: 9px;
+    padding-top: 7px;
+    border-top: 1px solid {PALETTE['hairline']};
+    font-size: 10.5px;
+    font-weight: 600;
+    color: {PALETTE['muted']};
+    letter-spacing: 0.01em;
+}}
+.bento-card:has(.yv-info-wrap:hover),
+.bento-card:has(.yv-info-wrap:focus-within),
+div[class*="st-key-card_"]:has(.yv-info-wrap:hover),
+div[class*="st-key-card_"]:has(.yv-info-wrap:focus-within),
+.stElementContainer:has(.yv-info-wrap:hover),
+.stElementContainer:has(.yv-info-wrap:focus-within),
+[data-testid="stColumn"]:has(.yv-info-wrap:hover),
+[data-testid="stColumn"]:has(.yv-info-wrap:focus-within) {{
+    position: relative !important;
+    z-index: 80 !important;
+    overflow: visible !important;
 }}
 
 /* Nested Executive Pass Hero Cards (Near-Square Editorial Proportion + DESIGN.md Palette) */
@@ -2371,6 +2508,35 @@ def render_section_eyebrow(label: str):
     )
 
 
+def build_info_popover_html(title: str, body: str, meta: str = "") -> str:
+    """Returns a circular (i) icon trigger with scale-corner easy-ease mini window on hover."""
+    import html as _html
+
+    clean_body = str(body or "").strip()
+    if not clean_body:
+        return ""
+    t_esc = _html.escape(str(title))
+    b_esc = _html.escape(clean_body)
+    m_html = f'<div class="yv-info-pop-meta">{_html.escape(str(meta))}</div>' if meta else ""
+    i_svg = (
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+        'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+        '<line x1="12" y1="16" x2="12" y2="11" />'
+        '<circle cx="12" cy="7.5" r="0.8" fill="currentColor" stroke="none" />'
+        '</svg>'
+    )
+    return (
+        f'<span class="yv-info-wrap" tabindex="0" role="button" aria-label="Info {t_esc}">'
+        f'<span class="yv-info-btn">{i_svg}</span>'
+        f'<div class="yv-info-pop" role="tooltip">'
+        f'<div class="yv-info-pop-head"><span class="yv-info-pop-dot"></span>'
+        f'<span class="yv-info-pop-title">{t_esc}</span></div>'
+        f'<div class="yv-info-pop-body">{b_esc}</div>'
+        f'{m_html}'
+        f'</div></span>'
+    )
+
+
 def render_nested_hero_card(
     outer_title: str,
     outer_sub: str,
@@ -2379,6 +2545,8 @@ def render_nested_hero_card(
     kpi_meta: str,
     variant: str = "emerald",
     badge_html: str = "",
+    info_text: str = "",
+    info_meta: str = "",
 ):
     is_dark = variant in ("emerald", "teal")
     brand_color = PALETTE["hero_fg"] if is_dark else "#043f2e"
@@ -2427,10 +2595,15 @@ def render_nested_hero_card(
     pre_html = f'<span class="kpi-unit kpi-unit-pre">{pre_txt}</span>' if pre_txt else ""
     suf_html = f'<span class="kpi-unit kpi-unit-suf">{suf_txt}</span>' if suf_txt else ""
 
+    pop_body = info_text or outer_sub or f"{nice_label} ({kpi_meta})"
+    pop_meta = info_meta or ("PostgreSQL Data Mart" if is_dark else "Live Aggregated Metric")
+    info_html = build_info_popover_html(outer_title, pop_body, pop_meta)
+
     html = (
         f'<div class="bento-card bento-hero-outer">'
         f'<div class="bento-card-header" style="margin-bottom:14px;">'
         f'<div class="bento-title">{outer_title}</div>'
+        f'{info_html}'
         f'</div>'
         f'<div class="nested-hero nested-{variant}">'
         f'<div class="hero-top-row">'
@@ -2490,12 +2663,18 @@ def render_compact_kpi_card(
     accent_strip: str | None = None,
     strip_tone: str = "forest",
     strip_tooltip: str = "",
+    info_text: str = "",
+    info_meta: str = "",
 ):
     import html as _html
     import re as _re
 
     slug_id = _re.sub(r"[^a-z0-9]+", "_", f"cmp_{label}".lower()).strip("_")
     sub_html = f'<div class="bento-sub" style="margin-top:8px;">{sub}</div>' if sub else ""
+
+    pop_parts = [p for p in [info_text or sub, strip_tooltip if not info_text and strip_tooltip else ""] if p]
+    pop_body = " · ".join(pop_parts) if pop_parts else f"{label} ({value})"
+    info_html = build_info_popover_html(label, pop_body, info_meta or "Verified KPI Metric")
 
     if accent_strip:
         tip_esc = _html.escape(strip_tooltip)
@@ -2556,7 +2735,10 @@ def render_compact_kpi_card(
         html = (
             f'<div class="bento-card bento-compact bento-compact-split">'
             f'<div class="bento-split-left">'
+            f'<div class="bento-card-header" style="margin-bottom:0;">'
             f'<div class="kpi-label" style="color:{PALETTE["muted"]}; margin-bottom:0;">{label}</div>'
+            f'{info_html}'
+            f'</div>'
             f'<div style="display:flex; align-items:center; gap:8px; margin:6px 0;">'
             f'<div id="yv_num_{slug_id}" class="anim-num" style="font-size:clamp(24px, 1.85vw, 29px); font-weight:500; letter-spacing:-0.018em; color:{PALETTE["emerald"]}; line-height:1.12;">{value}</div>'
             f'</div>{sub_html}</div>'
@@ -2566,7 +2748,10 @@ def render_compact_kpi_card(
     else:
         html = (
             f'<div class="bento-card bento-compact">'
+            f'<div class="bento-card-header" style="margin-bottom:0;">'
             f'<div class="kpi-label" style="color:{PALETTE["muted"]}; margin-bottom:0;">{label}</div>'
+            f'{info_html}'
+            f'</div>'
             f'<div style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; margin:6px 0;">'
             f'<div id="yv_num_{slug_id}" class="anim-num" style="font-size:clamp(24px, 1.85vw, 29px); font-weight:500; letter-spacing:-0.018em; color:{PALETTE["emerald"]}; line-height:1.12;">{value}</div>'
             f'{badge_html}</div>{sub_html}</div>'
@@ -2576,10 +2761,13 @@ def render_compact_kpi_card(
 
 
 
-def render_chart_card_header(title: str, subtitle: str = ""):
+def render_chart_card_header(title: str, subtitle: str = "", info_text: str = "", info_meta: str = ""):
+    pop_body = info_text or subtitle or f"Interactive analytical chart for {title}."
+    info_html = build_info_popover_html(title, pop_body, info_meta or "Interactive Visual Guide")
     html = (
         f'<div class="bento-card-header" style="margin-bottom:10px;">'
         f'<div class="bento-title">{title}</div>'
+        f'{info_html}'
         f'</div>'
     )
     st.markdown(html, unsafe_allow_html=True)
