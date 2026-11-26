@@ -110,16 +110,19 @@ DARK_PALETTE = {
 }
 
 PALETTE = dict(LIGHT_PALETTE)
+ACTIVE_LANG = "en"
 
 
-def set_active_theme(theme: str = "light"):
-    """Mutates PALETTE in-place so both styles.py and app.py reflect active Light or Dark theme."""
+def set_active_theme(theme: str = "light", lang: str = "en"):
+    """Mutates PALETTE in-place and syncs ACTIVE_LANG so both styles.py and app.py match."""
+    global ACTIVE_LANG
+    ACTIVE_LANG = lang
     PALETTE.clear()
     PALETTE.update(DARK_PALETTE if theme == "dark" else LIGHT_PALETTE)
 
 
-def inject_bento_css(sidebar_expanded: bool = True, theme: str = "light"):
-    set_active_theme(theme)
+def inject_bento_css(sidebar_expanded: bool = True, theme: str = "light", lang: str = "en"):
+    set_active_theme(theme, lang)
     # Load Fraunces (Grenette editorial serif substitute) and Inter (Graphik UI sans substitute)
     st.markdown(
         '<link rel="preconnect" href="https://fonts.googleapis.com">'
@@ -396,9 +399,12 @@ section[data-testid="stSidebar"] button:active {{
     width: calc(100% - 12px);
 }}
 section[data-testid="stSidebar"] div[class*="st-key-sb_sub_"] {{
-    padding-left: 16px !important;
+    padding-left: 14px !important;
+    padding-right: 4px !important;
     border-left: 1.5px solid {sb_div} !important;
     margin-left: 18px !important;
+    width: calc(100% - 18px) !important;
+    box-sizing: border-box !important;
     animation: ddItemIn 320ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }}
 section[data-testid="stSidebar"] div[class*="st-key-sb_sub_"] + div[class*="st-key-sb_sub_"] {{
@@ -456,12 +462,82 @@ section[data-testid="stSidebar"] div[class*="st-key-sb_sub_"] button span[data-t
     letter-spacing: -0.015em;
     text-transform: none;
     color: {PALETTE['emerald']};
-    padding: 32px 0 8px 2px;
+    padding: 34px 0 20px 2px;
     margin: 0;
     line-height: 1.25;
 }}
 .section-eyebrow-first {{
     padding-top: 8px;
+}}
+.stElementContainer:has(.section-eyebrow) {{
+    margin-bottom: 4px !important;
+}}
+
+/* Top-Bar Download Popover Pill (Matches Filter Selectbox Pill + Smooth Dropdown Animation) */
+[data-testid="stPopover"] > button,
+[data-testid="stPopover"] button[data-testid="stPopoverButton"] {{
+    min-height: 44px !important;
+    height: 44px !important;
+    border-radius: 999px !important;
+    background-color: {PALETTE['white']} !important;
+    border: 1px solid {PALETTE['hairline']} !important;
+    color: {PALETTE['emerald']} !important;
+    padding: 0 12px !important;
+    box-shadow: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: background-color 180ms ease, border-color 180ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}}
+[data-testid="stPopover"] > button:hover,
+[data-testid="stPopover"] button[data-testid="stPopoverButton"]:hover {{
+    background-color: {PALETTE['pill_bg']} !important;
+    border-color: {PALETTE['emerald']} !important;
+}}
+[data-testid="stPopover"] > button svg,
+[data-testid="stPopover"] button[data-testid="stPopoverButton"] span[data-testid="stIconMaterial"] {{
+    color: {PALETTE['emerald']} !important;
+}}
+[data-testid="stPopoverBody"] {{
+    background-color: {'#162620' if PALETTE['is_dark'] else '#ffffff'} !important;
+    border: 1px solid {'#2a4538' if PALETTE['is_dark'] else '#dce4df'} !important;
+    border-radius: 14px !important;
+    padding: 10px !important;
+    min-width: 215px !important;
+    box-shadow: {'0 16px 36px rgba(0,0,0,0.52)' if PALETTE['is_dark'] else '0 14px 30px rgba(4,63,46,0.14)'} !important;
+    animation: ddItemIn 260ms cubic-bezier(0.22, 1, 0.36, 1) both !important;
+}}
+[data-testid="stPopoverBody"] button {{
+    border-radius: 10px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    min-height: 38px !important;
+    justify-content: flex-start !important;
+    background-color: {PALETTE['pill_bg']} !important;
+    color: {PALETTE['emerald']} !important;
+    border: none !important;
+}}
+[data-testid="stPopoverBody"] button:hover {{
+    background-color: {PALETTE['btn_bg']} !important;
+    color: {PALETTE['btn_fg']} !important;
+}}
+
+/* Clean Print-to-PDF Output */
+@media print {{
+    section[data-testid="stSidebar"],
+    header[data-testid="stHeader"],
+    [data-testid="stToolbar"],
+    [data-testid="stPopover"] {{
+        display: none !important;
+    }}
+    * {{
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }}
+    .block-container,
+    [data-testid="stMainBlockContainer"] {{
+        padding: 0.4rem 0.6rem !important;
+    }}
 }}
 
 /* Flat Paper White Elevated Cards (Radius 16px, ZERO Box-Shadow per DESIGN.md) */
@@ -576,15 +652,31 @@ div[class*="st-key-card_p1_donut"] {{
     flex: 0 0 auto !important;
     height: auto !important;
 }}
+div[data-testid="stColumn"]:has(.bento-leader-card),
+div[data-testid="stColumn"]:has(.bento-leader-card) > div,
+div[data-testid="stColumn"]:has(.bento-leader-card) [data-testid="stVerticalBlock"] {{
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+}}
+.stElementContainer:has(.bento-leader-card),
+.stElementContainer:has(.bento-leader-card) > div,
+.stElementContainer:has(.bento-leader-card) [data-testid="stMarkdownContainer"] {{
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+}}
 .bento-leader-card {{
     background: {PALETTE['white']};
     border-radius: 16px;
-    padding: 18px 22px 20px 22px;
+    padding: 18px 22px 22px 22px;
     margin-top: 8px;
     margin-bottom: 0 !important;
+    flex: 1 1 auto !important;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 14px;
     transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }}
 .bento-leader-card:hover {{
@@ -596,6 +688,7 @@ div[class*="st-key-card_p1_donut"] {{
     align-items: flex-end;
     justify-content: space-between;
     gap: 14px;
+    margin-top: auto;
 }}
 .leader-left {{
     display: flex;
@@ -606,24 +699,32 @@ div[class*="st-key-card_p1_donut"] {{
     font-size: clamp(32px, 2.85vw, 44px);
     font-weight: 600;
     letter-spacing: -0.04em;
-    line-height: 1.0;
+    line-height: 1.02;
     color: {PALETTE['emerald']};
     display: flex;
-    align-items: baseline;
+    flex-direction: column;
+    align-items: flex-start;
     white-space: nowrap;
 }}
+.leader-val .kpi-unit-pre {{
+    margin-right: 0 !important;
+    margin-bottom: 4px;
+    font-size: 13px !important;
+    letter-spacing: 0.04em;
+}}
 .leader-channel {{
-    font-size: 13.5px;
-    font-weight: 600;
-    color: {PALETTE['muted']};
-    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: {PALETTE['emerald']};
+    margin: 0 0 2px 0;
+    white-space: nowrap;
 }}
 .leader-right {{
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    text-align: right;
-    gap: 3px;
+    align-items: flex-start;
+    text-align: left;
+    gap: 2px;
     flex-shrink: 0;
 }}
 .leader-share {{
@@ -1004,6 +1105,36 @@ div[data-testid="stButtonGroup"] button[data-testid="stBaseButton-segmented_cont
     border-color: {PALETTE['btn_bg']};
     transform: scale(1.08);
 }}
+.yv-hdr-actions {{
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+}}
+.yv-csv-btn {{
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    border: 1px solid {PALETTE['hairline']};
+    background: {'#1a2d25' if PALETTE['is_dark'] else '#f1f4f2'};
+    color: {PALETTE['muted']} !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none !important;
+    transition:
+        background-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}}
+.yv-csv-btn:hover {{
+    background: {PALETTE['btn_bg']};
+    color: {PALETTE['btn_fg']} !important;
+    border-color: {PALETTE['btn_bg']};
+    transform: scale(1.08);
+}}
 .yv-info-pop {{
     position: absolute;
     top: calc(100% + 9px);
@@ -1102,6 +1233,307 @@ div[class*="st-key-card_"]:has(.yv-info-wrap:focus-within),
     position: relative !important;
     z-index: 80 !important;
     overflow: visible !important;
+}}
+
+/* Sidebar Customer Service Headset Profile + Scale-Corner Easy-Ease Popover (H10) */
+.yv-support-wrap {{
+    position: relative;
+    width: {sb_btn_w};
+    margin-top: 4px;
+    z-index: 40;
+}}
+.yv-support-trigger {{
+    width: {sb_btn_w};
+    min-height: 44px;
+    padding: {sb_btn_pad};
+    border-radius: 12px;
+    background: transparent;
+    color: {sb_text};
+    display: flex;
+    align-items: center;
+    justify-content: {sb_btn_just};
+    gap: 10px;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 180ms ease, color 180ms ease;
+}}
+.yv-support-trigger svg {{
+    color: {sb_icon};
+    flex-shrink: 0;
+    transition: color 180ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}}
+.yv-support-wrap:hover .yv-support-trigger,
+.yv-support-wrap:focus-within .yv-support-trigger {{
+    background: {sb_hover_bg};
+    color: {sb_hover_fg};
+}}
+.yv-support-wrap:hover .yv-support-trigger svg,
+.yv-support-wrap:focus-within .yv-support-trigger svg {{
+    color: {PALETTE['chart_primary']};
+    transform: scale(1.08);
+}}
+.yv-support-pop {{
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 0;
+    width: 214px;
+    padding: 14px 14px 13px 14px;
+    border-radius: 15px;
+    background: {'#162620' if PALETTE['is_dark'] else '#ffffff'};
+    border: 1px solid {'#2a4538' if PALETTE['is_dark'] else '#dce4df'};
+    box-shadow: {'0 16px 38px rgba(0, 0, 0, 0.56)' if PALETTE['is_dark'] else '0 14px 32px rgba(4, 63, 46, 0.16)'};
+    color: {PALETTE['charcoal']};
+    z-index: 9999;
+    transform-origin: bottom left;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(0.16) translateY(8px);
+    transition:
+        transform 340ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 230ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 340ms;
+}}
+/* Invisible hover bridge so moving cursor into popover keeps it open */
+.yv-support-pop::before {{
+    content: "";
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+    width: 100%;
+    height: 18px;
+}}
+.yv-support-pop::after {{
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 18px;
+    width: 9px;
+    height: 9px;
+    background: {'#162620' if PALETTE['is_dark'] else '#ffffff'};
+    border-right: 1px solid {'#2a4538' if PALETTE['is_dark'] else '#dce4df'};
+    border-bottom: 1px solid {'#2a4538' if PALETTE['is_dark'] else '#dce4df'};
+    transform: rotate(45deg);
+}}
+.yv-support-wrap:hover .yv-support-pop,
+.yv-support-wrap:focus-within .yv-support-pop {{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1) translateY(0);
+}}
+.yv-sup-head {{
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid {PALETTE['hairline']};
+}}
+.yv-sup-avatar {{
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: {PALETTE['btn_bg']};
+    color: {PALETTE['btn_fg']};
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}}
+.yv-sup-name {{
+    font-size: 12.5px;
+    font-weight: 700;
+    color: {PALETTE['emerald']};
+    line-height: 1.2;
+}}
+.yv-sup-role {{
+    font-size: 10.5px;
+    font-weight: 500;
+    color: {PALETTE['muted']};
+    margin-top: 2px;
+}}
+.yv-sup-row {{
+    margin-bottom: 8px;
+}}
+.yv-sup-lbl {{
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: {PALETTE['muted']};
+    margin-bottom: 3px;
+}}
+.yv-sup-val {{
+    display: block;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: {PALETTE['emerald']};
+    background: {PALETTE['pill_bg']};
+    border-radius: 8px;
+    padding: 6px 8px;
+    word-break: break-all;
+    user-select: all !important;
+    -webkit-user-select: all !important;
+    cursor: text;
+    text-decoration: none;
+}}
+.yv-sup-link {{
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: {PALETTE['chart_primary']};
+    text-decoration: none;
+}}
+.yv-sup-link:hover {{
+    text-decoration: underline;
+}}
+section[data-testid="stSidebar"] .stElementContainer:has(.yv-support-wrap:hover),
+section[data-testid="stSidebar"] .stElementContainer:has(.yv-support-wrap:focus-within) {{
+    position: relative !important;
+    z-index: 9999 !important;
+    overflow: visible !important;
+}}
+
+/* 3D Click-to-Flip Editorial Botanical Cards (Page 5 Before vs After Preprocessing) */
+div[class*="st-key-card_p5_prep"] {{
+    padding: 24px 32px 34px 32px !important;
+}}
+div[class*="st-key-card_p5_suites"] .hpb-label {{
+    text-align: left !important;
+}}
+div[class*="st-key-card_p5_suites"] .hpb-wrap {{
+    justify-content: flex-start !important;
+}}
+div[class*="st-key-card_p5_suites"] .hpb-rows {{
+    justify-content: flex-start !important;
+    flex: 0 0 auto !important;
+    gap: 24px !important;
+    padding-top: 4px;
+    padding-bottom: 12px;
+}}
+.yv-flip-grid {{
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 10px;
+}}
+@media (max-width: 1200px) {{
+    .yv-flip-grid {{
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }}
+}}
+@media (max-width: 768px) {{
+    .yv-flip-grid {{
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }}
+}}
+.yv-flip-card {{
+    display: block;
+    position: relative;
+    height: 280px;
+    perspective: 1200px;
+    cursor: default;
+    user-select: none;
+    margin: 0;
+}}
+.yv-flip-inner {{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 640ms cubic-bezier(0.22, 1, 0.36, 1);
+}}
+.yv-flip-card:hover .yv-flip-inner {{
+    transform: rotateY(180deg);
+}}
+.yv-flip-face {{
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 18px;
+    padding: 24px 20px 26px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+}}
+.yv-flip-front {{
+    background: {'#1b2e26' if PALETTE['is_dark'] else '#eff1f3'};
+    border: 1px solid {'#2a4538' if PALETTE['is_dark'] else '#e2e6ea'};
+    color: {'#ebf4e6' if PALETTE['is_dark'] else '#043f2e'};
+}}
+.yv-flip-back {{
+    background: {'#073527' if PALETTE['is_dark'] else '#043f2e'};
+    border: 1px solid {'#1b4d3c' if PALETTE['is_dark'] else 'transparent'};
+    color: #fcfcfc;
+    transform: rotateY(180deg);
+}}
+.yv-flip-ic {{
+    width: 30px;
+    height: 30px;
+    color: {'#c8f169' if PALETTE['is_dark'] else '#043f2e'};
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 14px;
+}}
+.yv-flip-back .yv-flip-ic {{
+    color: #c8f169;
+}}
+.yv-flip-title {{
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    color: {'#ebf4e6' if PALETTE['is_dark'] else '#043f2e'};
+    line-height: 1.18;
+    margin: 0 0 12px 0;
+}}
+.yv-flip-back .yv-flip-title {{
+    color: #fcfcfc;
+}}
+.yv-flip-body {{
+    font-size: 12.2px;
+    font-weight: 400;
+    line-height: 1.52;
+    color: {'#b8ccc0' if PALETTE['is_dark'] else '#46534b'};
+    margin: 0;
+    overflow-y: auto;
+}}
+.yv-flip-back .yv-flip-body {{
+    color: #d9e8cf;
+}}
+.yv-flip-cta-row {{
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+}}
+.yv-flip-cta {{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    background: {'#c8f169' if PALETTE['is_dark'] else '#043f2e'};
+    color: {'#043f2e' if PALETTE['is_dark'] else '#fcfcfc'};
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
+}}
+.yv-flip-card:hover .yv-flip-cta {{
+    transform: translateX(2px);
+}}
+.yv-flip-back .yv-flip-cta {{
+    background: #dce8c9;
+    color: #043f2e;
 }}
 
 /* Nested Executive Pass Hero Cards (Near-Square Editorial Proportion + DESIGN.md Palette) */
@@ -2508,6 +2940,123 @@ def render_section_eyebrow(label: str):
     )
 
 
+def render_download_popover(page_id: str, lang: str = "en", csv_df=None, csv_filename: str = "export.csv"):
+    """Renders a sleek top-bar Download icon popover (PDF on all pages + CSV on Pages 2 & 5)."""
+    import streamlit.components.v1 as _components
+
+    is_id = (lang == "id")
+    tip = "Unduh Halaman / Data" if is_id else "Download Page / Data"
+    hdr = "Unduh Berkas" if is_id else "Download File"
+    lbl_pdf = "Unduh Halaman PDF" if is_id else "Download PDF Page"
+    lbl_csv = "Unduh Data CSV" if is_id else "Download CSV Data"
+
+    with st.popover("", icon=":material/download:", help=tip, use_container_width=True):
+        st.markdown(
+            f'<div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; '
+            f'color:{PALETTE["muted"]}; margin:0 0 8px 2px;">{hdr}</div>',
+            unsafe_allow_html=True,
+        )
+        if st.button(lbl_pdf, icon=":material/picture_as_pdf:", key=f"dl_pdf_{page_id}_{lang}", use_container_width=True):
+            _components.html(
+                "<script>setTimeout(function(){ window.parent.print(); }, 180);</script>",
+                height=0,
+                width=0,
+            )
+        if csv_df is not None and not csv_df.empty:
+            csv_bytes = csv_df.to_csv(index=False).encode("utf-8-sig")
+            st.download_button(
+                lbl_csv,
+                data=csv_bytes,
+                file_name=csv_filename,
+                mime="text/csv",
+                icon=":material/table_view:",
+                key=f"dl_csv_{page_id}_{lang}",
+                use_container_width=True,
+            )
+
+
+def render_sidebar_support_widget(sidebar_expanded: bool = True, lang: str = "en"):
+    """Renders a Customer Service headset profile icon below Language with scale-corner easy-ease popover."""
+    is_id = (lang == "id")
+    lbl = "Bantuan & Kontak" if is_id else "Help & Support"
+    role_txt = "Tim Pengembang Dashboard" if is_id else "Dashboard & Analytics Team"
+    doc_txt = "Buka Dokumentasi GitHub" if is_id else "Open GitHub Docs"
+    hint_txt = "Klik teks untuk menyorot & menyalin" if is_id else "Click text to highlight & copy"
+
+    # Classic customer-service human profile with headset SVG
+    headset_svg = (
+        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+        'stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+        '<path d="M4 12a8 8 0 0 1 16 0" />'
+        '<rect x="2.5" y="11.5" width="3" height="5" rx="1.2" />'
+        '<rect x="18.5" y="11.5" width="3" height="5" rx="1.2" />'
+        '<path d="M20 16.5v1a2.5 2.5 0 0 1-2.5 2.5H14" />'
+        '<circle cx="12" cy="11.2" r="2.7" />'
+        '<path d="M8.2 18.2a4.4 4.4 0 0 1 7.6 0" />'
+        '</svg>'
+    )
+    avatar_svg = (
+        '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+        'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+        '<path d="M4 12a8 8 0 0 1 16 0" />'
+        '<rect x="2.5" y="11.5" width="3" height="5" rx="1.2" />'
+        '<rect x="18.5" y="11.5" width="3" height="5" rx="1.2" />'
+        '<circle cx="12" cy="11.2" r="2.7" />'
+        '<path d="M8.2 18.2a4.4 4.4 0 0 1 7.6 0" />'
+        '</svg>'
+    )
+    text_span = f"<span>{lbl}</span>" if sidebar_expanded else ""
+    html = (
+        f'<div class="yv-support-wrap" tabindex="0">'
+        f'<div class="yv-support-trigger" role="button" aria-label="{lbl}">'
+        f'{headset_svg}{text_span}'
+        f'</div>'
+        f'<div class="yv-support-pop" role="dialog" aria-label="{lbl}">'
+        f'<div class="yv-sup-head">'
+        f'<span class="yv-sup-avatar">{avatar_svg}</span>'
+        f'<div><div class="yv-sup-name">Muhammad Naufal K.</div>'
+        f'<div class="yv-sup-role">{role_txt}</div></div>'
+        f'</div>'
+        f'<div class="yv-sup-row">'
+        f'<div class="yv-sup-lbl">GitHub</div>'
+        f'<span class="yv-sup-val">yuuukosoo</span>'
+        f'<a class="yv-sup-link" href="https://github.com/yuuukosoo/yuuukosoovexa-dwh-bi-analytics" target="_blank" rel="noopener">{doc_txt} &#8599;</a>'
+        f'</div>'
+        f'<div class="yv-sup-row" style="margin-bottom:4px;">'
+        f'<div class="yv-sup-lbl">{"Email Kontak" if is_id else "Contact Email"}</div>'
+        f'<span class="yv-sup-val">muhammadnaufal.nf59@gmail.com</span>'
+        f'</div>'
+        f'<div style="font-size:10px; color:{PALETTE["muted"]}; margin-top:6px;">{hint_txt}</div>'
+        f'</div>'
+        f'</div>'
+    )
+    st.markdown(html, unsafe_allow_html=True)
+
+
+def build_csv_download_icon_html(df, filename: str = "export.csv", lang: str = "en") -> str:
+    """Returns a sleek 24px circular CSV download icon button placed right next to the (i) info icon."""
+    import base64 as _b64
+    import html as _html
+
+    if df is None or len(df) == 0:
+        return ""
+    csv_b64 = _b64.b64encode(df.to_csv(index=False).encode("utf-8-sig")).decode("ascii")
+    tip = "Unduh Tabel CSV" if lang == "id" else "Download Table CSV"
+    fn_esc = _html.escape(str(filename))
+    dl_svg = (
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+        'stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+        '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />'
+        '<polyline points="7 10 12 15 17 10" />'
+        '<line x1="12" y1="15" x2="12" y2="3" />'
+        '</svg>'
+    )
+    return (
+        f'<a class="yv-csv-btn" href="data:text/csv;charset=utf-8;base64,{csv_b64}" '
+        f'download="{fn_esc}" title="{tip}" aria-label="{tip}">{dl_svg}</a>'
+    )
+
+
 def build_info_popover_html(title: str, body: str, meta: str = "") -> str:
     """Returns a circular (i) icon trigger with scale-corner easy-ease mini window on hover."""
     import html as _html
@@ -2564,14 +3113,14 @@ def render_nested_hero_card(
         .replace("Mrp", "MRP")
     )
 
-    # Split kpi_meta into left & right footer items (like "**** 909090" vs "EXP 09/26")
+    # Split kpi_meta into left & right footer items
     if " | " in kpi_meta:
         left_meta, right_meta = kpi_meta.split(" | ", 1)
     else:
         left_meta = kpi_meta
-        right_meta = "DWH VERIFIED" if is_dark else "LIVE MART"
+        right_meta = ("Data Terverifikasi" if ACTIVE_LANG == "id" else "Verified Data")
 
-    brand_text = "YV · DWH" if is_dark else "YV · VOL"
+    brand_text = "YuuukosooVexa"
     wave_svg = (
         f'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">'
         f'<path d="M8.5 14.5a3.5 3.5 0 0 0 0-5" stroke="{wave_color}" stroke-width="1.8" stroke-linecap="round"/>'
@@ -2596,7 +3145,12 @@ def render_nested_hero_card(
     suf_html = f'<span class="kpi-unit kpi-unit-suf">{suf_txt}</span>' if suf_txt else ""
 
     pop_body = info_text or outer_sub or f"{nice_label} ({kpi_meta})"
-    pop_meta = info_meta or ("PostgreSQL Data Mart" if is_dark else "Live Aggregated Metric")
+    if info_meta:
+        pop_meta = info_meta
+    elif ACTIVE_LANG == "id":
+        pop_meta = "Ringkasan Bisnis Terverifikasi"
+    else:
+        pop_meta = "Verified Business Summary"
     info_html = build_info_popover_html(outer_title, pop_body, pop_meta)
 
     html = (
@@ -2607,10 +3161,9 @@ def render_nested_hero_card(
         f'</div>'
         f'<div class="nested-hero nested-{variant}">'
         f'<div class="hero-top-row">'
-        f'<span class="hero-brand-mark" style="color:{brand_color};">{brand_text}</span>'
+        f'<span class="hero-brand-mark" style="color:{brand_color}; font-size:16px; font-weight:600; text-transform:none; letter-spacing:-0.015em; line-height:1.25;">{nice_label}</span>'
         f'{wave_svg}</div>'
         f'<div class="hero-mid-block">'
-        f'<div class="hero-sub-label" style="color:{label_color};">{nice_label}</div>'
         f'<div class="kpi-value">{pre_html}<span id="yv_num_{slug_id}" class="anim-num">{num_txt}</span>{suf_html}</div>'
         f'</div>'
         f'<div class="hero-bottom-row">'
@@ -2674,7 +3227,8 @@ def render_compact_kpi_card(
 
     pop_parts = [p for p in [info_text or sub, strip_tooltip if not info_text and strip_tooltip else ""] if p]
     pop_body = " · ".join(pop_parts) if pop_parts else f"{label} ({value})"
-    info_html = build_info_popover_html(label, pop_body, info_meta or "Verified KPI Metric")
+    default_kpi_meta = "Metrik KPI Terverifikasi" if ACTIVE_LANG == "id" else "Verified KPI Metric"
+    info_html = build_info_popover_html(label, pop_body, info_meta or default_kpi_meta)
 
     if accent_strip:
         tip_esc = _html.escape(strip_tooltip)
@@ -2761,13 +3315,28 @@ def render_compact_kpi_card(
 
 
 
-def render_chart_card_header(title: str, subtitle: str = "", info_text: str = "", info_meta: str = ""):
-    pop_body = info_text or subtitle or f"Interactive analytical chart for {title}."
-    info_html = build_info_popover_html(title, pop_body, info_meta or "Interactive Visual Guide")
+def render_chart_card_header(
+    title: str,
+    subtitle: str = "",
+    info_text: str = "",
+    info_meta: str = "",
+    csv_df=None,
+    csv_filename: str = "export.csv",
+):
+    default_body = (
+        f"Visualisasi analitik interaktif untuk {title}."
+        if ACTIVE_LANG == "id"
+        else f"Interactive analytical chart for {title}."
+    )
+    default_meta = "Panduan Visual Interaktif" if ACTIVE_LANG == "id" else "Interactive Visual Guide"
+    pop_body = info_text or subtitle or default_body
+    info_html = build_info_popover_html(title, pop_body, info_meta or default_meta)
+    csv_html = build_csv_download_icon_html(csv_df, csv_filename, ACTIVE_LANG) if csv_df is not None else ""
+    actions_html = f'<span class="yv-hdr-actions">{csv_html}{info_html}</span>' if csv_html else info_html
     html = (
         f'<div class="bento-card-header" style="margin-bottom:10px;">'
         f'<div class="bento-title">{title}</div>'
-        f'{info_html}'
+        f'{actions_html}'
         f'</div>'
     )
     st.markdown(html, unsafe_allow_html=True)

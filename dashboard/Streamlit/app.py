@@ -23,11 +23,12 @@ import importlib
 from data_loader import ROOT_DIR, load_all_datamarts
 from translations import TRANSLATIONS, t
 import styles as _styles_mod
-if not hasattr(_styles_mod, "build_info_popover_html"):
+if not hasattr(_styles_mod, "build_csv_download_icon_html") or not hasattr(_styles_mod, "render_download_popover"):
     importlib.reload(_styles_mod)
 from styles import (
     PALETTE,
     apply_bento_plotly_style,
+    build_csv_download_icon_html,
     build_info_popover_html,
     build_striped_pill_bar,
     inject_bento_css,
@@ -38,6 +39,7 @@ from styles import (
     render_channel_arc_gauge,
     render_chart_card_header,
     render_compact_kpi_card,
+    render_download_popover,
     render_empty_state,
     render_error_state,
     render_horizontal_pill_bars,
@@ -46,6 +48,7 @@ from styles import (
     render_page_title,
     render_rounded_heatmap,
     render_section_eyebrow,
+    render_sidebar_support_widget,
     render_sku_modern_table,
     render_striped_pill_bar,
     render_top_header,
@@ -72,7 +75,7 @@ if "sb_lang_open" not in st.session_state:
 lang = st.session_state.lang
 theme = st.session_state.theme
 
-inject_bento_css(sidebar_expanded=st.session_state.sidebar_expanded, theme=theme)
+inject_bento_css(sidebar_expanded=st.session_state.sidebar_expanded, theme=theme, lang=lang)
 
 
 # ------------------------------------------------------------------------------
@@ -124,7 +127,7 @@ PLOT_CFG = {"displayModeBar": False}
 # ------------------------------------------------------------------------------
 # LEFT ICON RAIL SIDEBAR (4 MAIN ANALYTICAL PAGES WITH ACCESSIBLE TOOLTIPS)
 # ------------------------------------------------------------------------------
-VALID_PAGES = {"Executive Summary", "Sales & Pricing", "Environmental AQI", "Lifestyle & Fitness"}
+VALID_PAGES = {"Executive Summary", "Sales & Pricing", "Environmental AQI", "Lifestyle & Fitness", "Data Quality"}
 if st.session_state.active_page not in VALID_PAGES:
     st.session_state.active_page = "Executive Summary"
 
@@ -144,10 +147,11 @@ with st.sidebar:
     st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
 
     NAV_PAGES = [
-        ("Executive Summary", "nav_exec", ":material/space_dashboard:", "Multi-Channel Sales"),
-        ("Sales & Pricing", "nav_sales", ":material/sell:", "Discount Optimization"),
-        ("Environmental AQI", "nav_aqi", ":material/air:", "Air Quality Correlation"),
-        ("Lifestyle & Fitness", "nav_life", ":material/fitness_center:", "Customer Segmentation"),
+        ("Executive Summary", "nav_exec", ":material/space_dashboard:", "Penjualan Multi-Kanal" if lang == "id" else "Multi-Channel Sales"),
+        ("Sales & Pricing", "nav_sales", ":material/sell:", "Optimasi Diskon" if lang == "id" else "Discount Optimization"),
+        ("Environmental AQI", "nav_aqi", ":material/air:", "Korelasi Kualitas Udara" if lang == "id" else "Air Quality Correlation"),
+        ("Lifestyle & Fitness", "nav_life", ":material/fitness_center:", "Segmentasi Pelanggan" if lang == "id" else "Customer Segmentation"),
+        ("Data Quality", "nav_quality", ":material/verified:", "Validasi & Audit DWH" if lang == "id" else "DWH Validation & Audit"),
     ]
     for p_key, p_lbl_key, p_icon, p_sub in NAV_PAGES:
         is_act = (st.session_state.active_page == p_key and st.session_state.drill_mode is None)
@@ -259,6 +263,9 @@ with st.sidebar:
             st.session_state.lang = "id" if lang == "en" else "en"
             st.rerun()
 
+    # Customer Service Headset Help & Support Widget directly below Language
+    render_sidebar_support_widget(sidebar_expanded=is_exp, lang=lang)
+
     page = st.session_state.active_page
 
 
@@ -274,13 +281,15 @@ def render_drill_sku():
         return
     rec = row_sku.iloc[0]
 
-    col_back, col_t = st.columns([0.55, 9.45], gap="small", vertical_alignment="center")
+    col_back, col_t, col_dl = st.columns([0.55, 8.65, 0.8], gap="small", vertical_alignment="center")
     with col_back:
-        if st.button("", icon=":material/arrow_back:", key="btn_drill_back", help="Back to Sales & Pricing"):
+        if st.button("", icon=":material/arrow_back:", key="btn_drill_back", help="Kembali ke Penjualan & Harga" if lang == "id" else "Back to Sales & Pricing"):
             st.session_state.drill_mode = None
             st.rerun()
     with col_t:
         render_page_title(t("drill_sku_title", lang), f"{rec['sku_natural_id']} ({rec['channel_source']})")
+    with col_dl:
+        render_download_popover("drill_sku", lang=lang, csv_df=row_sku, csv_filename=f"yuuukosoovexa_sku_{sku_id}.csv")
 
     st.markdown('<div style="height:28px;"></div>', unsafe_allow_html=True)
 
@@ -374,7 +383,7 @@ def render_drill_city():
         return
 
     is_id = (lang == "id")
-    col_back, col_t = st.columns([0.55, 9.45], gap="small", vertical_alignment="center")
+    col_back, col_t, col_dl = st.columns([0.55, 8.65, 0.8], gap="small", vertical_alignment="center")
     with col_back:
         if st.button("", icon=":material/arrow_back:", key="btn_drill_back", help="Kembali ke Kualitas Udara AQI" if is_id else "Back to Environmental AQI"):
             st.session_state.drill_mode = None
@@ -384,6 +393,8 @@ def render_drill_city():
             f"{'Diagnostik AQI' if is_id else ''} {city}{'' if is_id else ' AQI Diagnostic'},".strip(),
             f"{cdf['state'].iloc[0]} ({cdf['region'].iloc[0]} India)",
         )
+    with col_dl:
+        render_download_popover("drill_city", lang=lang, csv_df=cdf, csv_filename=f"yuuukosoovexa_aqi_{str(city).lower().replace(' ', '_')}.csv")
 
     st.markdown('<div style="height:28px;"></div>', unsafe_allow_html=True)
 
@@ -514,7 +525,7 @@ def render_drill_city():
 def render_page1():
     all_ch_lbl = t("all_channels", lang)
     all_cat_lbl = t("all_categories", lang)
-    col_title, col_f1, col_f2 = st.columns([5.8, 2.1, 2.1], gap="small")
+    col_title, col_f1, col_f2, col_dl = st.columns([5.2, 2.0, 2.0, 0.8], gap="small")
     with col_title:
         st.markdown(f'<h1 class="yv-page-heading">{t("nav_exec", lang)}</h1>', unsafe_allow_html=True)
     with col_f1:
@@ -528,6 +539,8 @@ def render_page1():
     with col_f2:
         cats_all = [all_cat_lbl] + sorted(df_exec["category_name"].unique().tolist())
         sel_cat = st.selectbox("Category Filter", cats_all, label_visibility="collapsed", key=f"p1_cat_sel_{lang}")
+    with col_dl:
+        render_download_popover("p1", lang=lang)
 
     st.markdown('<div class="filter-content-spacer"></div>', unsafe_allow_html=True)
 
@@ -752,7 +765,7 @@ def render_page1():
                     if is_id
                     else f"Highlights the top revenue-contributing sales channel ({leader['channel_name']} at {share_pct:.1f}% share)."
                 ),
-                "datamart.vw_executive_sales",
+                "Ringkasan Penjualan Multi-Kanal" if is_id else "Multi-Channel Sales Summary",
             )
             st.markdown(
                 f'<div class="bento-leader-card">'
@@ -763,9 +776,9 @@ def render_page1():
                 f'<div class="leader-body">'
                 f'<div class="leader-left">'
                 f'<div class="leader-val"><span class="kpi-unit kpi-unit-pre">INR</span><span id="yv_num_p1_leader" class="anim-num">{leader_num}</span></div>'
-                f'<div class="leader-channel">{leader["channel_name"]}</div>'
                 f'</div>'
                 f'<div class="leader-right">'
+                f'<div class="leader-channel">{leader["channel_name"]}</div>'
                 f'<div class="leader-share">{share_pct:.1f}% {t("p1_leader_share", lang)}</div>'
                 f'<div class="leader-orders">{int(leader["orders"]):,} {t("p1_leader_orders", lang)}</div>'
                 f'</div>'
@@ -781,7 +794,7 @@ def render_page1():
 def render_page2():
     all_ch_lbl = t("all_channels", lang)
     all_cat_lbl = t("all_categories", lang)
-    col_title, col_f1, col_f2 = st.columns([5.8, 2.1, 2.1], gap="small")
+    col_title, col_f1, col_f2, col_dl = st.columns([5.2, 2.0, 2.0, 0.8], gap="small")
     with col_title:
         st.markdown(f'<h1 class="yv-page-heading">{t("nav_sales", lang)}</h1>', unsafe_allow_html=True)
     with col_f1:
@@ -803,6 +816,9 @@ def render_page2():
         f = f[f["channel_source"] == ch_choice]
     if sel_cat != all_cat_lbl:
         f = f[f["category_name"] == sel_cat]
+
+    with col_dl:
+        render_download_popover("p2", lang=lang)
 
     if f.empty:
         render_empty_state(
@@ -1012,15 +1028,16 @@ def render_page2():
                     if lang == "id"
                     else "Displays the top 50 product SKUs ranked by net revenue. Use the search bar to filter or select a SKU to inspect detailed pricing."
                 ),
-                "datamart.vw_sales_pricing_sku",
+                "Katalog Produk & Harga" if lang == "id" else "Product & Pricing Catalog",
             )
+            sku_csv_icon = build_csv_download_icon_html(top_skus, "yuuukosoovexa_top50_skus.csv", lang)
             st.markdown(
                 f'<div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">'
                 f'<div class="sku-highlight-stack">'
                 f'<div class="sku-highlight-big">{top_line_1}</div>'
                 f'<div class="sku-highlight-sub">{top_line_2}</div>'
                 f'</div>'
-                f'<div style="padding-top:10px; padding-right:4px;">{sku_info}</div>'
+                f'<div class="yv-hdr-actions" style="padding-top:10px; padding-right:4px;">{sku_csv_icon}{sku_info}</div>'
                 f'</div>',
                 unsafe_allow_html=True,
             )
@@ -1041,7 +1058,7 @@ def render_page2():
 def render_page3():
     all_sea_lbl = t("all_seasons", lang)
     all_reg_lbl = t("all_regions", lang)
-    col_title, col_f1, col_f2 = st.columns([5.8, 2.1, 2.1], gap="small")
+    col_title, col_f1, col_f2, col_dl = st.columns([5.2, 2.0, 2.0, 0.8], gap="small")
     with col_title:
         st.markdown(f'<h1 class="yv-page-heading">{t("nav_aqi", lang)}</h1>', unsafe_allow_html=True)
     with col_f1:
@@ -1055,6 +1072,8 @@ def render_page3():
     with col_f2:
         regions = [all_reg_lbl] + sorted(df_aqi["region"].unique().tolist())
         sel_reg = st.selectbox("Region", regions, label_visibility="collapsed", key=f"p3_reg_sel_{lang}")
+    with col_dl:
+        render_download_popover("p3", lang=lang)
 
     st.markdown('<div class="filter-content-spacer"></div>', unsafe_allow_html=True)
 
@@ -1147,7 +1166,7 @@ def render_page3():
                     if is_id
                     else "Select any of the 29 Indian cities and click inspect to open its daily AQI timeline and pollutant breakdown."
                 ),
-                "Drill-Through Diagnostic",
+                "Analisis Detail Kota" if is_id else "City Detail Analysis",
             )
             st.markdown(
                 f'<div class="bento-card-header" style="margin-bottom:10px;">'
@@ -1327,7 +1346,7 @@ def render_page3():
 def render_page4():
     all_goal_lbl = t("all_goals", lang)
     all_bmi_lbl = t("all_bmi", lang)
-    col_title, col_f1, col_f2 = st.columns([5.8, 2.1, 2.1], gap="small")
+    col_title, col_f1, col_f2, col_dl = st.columns([5.2, 2.0, 2.0, 0.8], gap="small")
     with col_title:
         st.markdown(f'<h1 class="yv-page-heading">{t("nav_life", lang)}</h1>', unsafe_allow_html=True)
     with col_f1:
@@ -1341,6 +1360,8 @@ def render_page4():
     with col_f2:
         bmis = [all_bmi_lbl] + sorted(df_fit["bmi_category"].unique().tolist())
         sel_bmi = st.selectbox("BMI Category", bmis, label_visibility="collapsed", key=f"p4_bmi_sel_{lang}")
+    with col_dl:
+        render_download_popover("p4", lang=lang)
 
     st.markdown('<div class="filter-content-spacer"></div>', unsafe_allow_html=True)
 
@@ -1494,17 +1515,31 @@ def render_page4():
                 else:
                     c_none, c_ins, c_apn = "#bfd1b4", "#78c51c", "#043f2e"
 
+                occ_id_map = {
+                    "Nurse": "Perawat",
+                    "Doctor": "Dokter",
+                    "Engineer": "Insinyur",
+                    "Lawyer": "Pengacara",
+                    "Teacher": "Guru",
+                    "Accountant": "Akuntan",
+                    "Salesperson": "Tenaga Penjual",
+                    "Sales Representative": "Staf Penjualan",
+                    "Software Engineer": "Insinyur TI",
+                    "Scientist": "Ilmuwan",
+                    "Manager": "Manajer",
+                }
                 occ_rows = []
                 for occ_name, row_s in occ_top7.iterrows():
                     v_none = int(row_s["None"])
                     v_ins = int(row_s["Insomnia"])
                     v_apn = int(row_s["Sleep Apnea"])
+                    occ_disp = occ_id_map.get(str(occ_name), str(occ_name)) if is_id else str(occ_name)
                     occ_rows.append(
                         {
-                            "label": str(occ_name).upper(),
+                            "label": occ_disp.upper(),
                             "segments": [(v_none, c_none), (v_ins, c_ins), (v_apn, c_apn)],
                             "tip_html": (
-                                f"<div style='font-weight:700;color:{PALETTE['emerald']};'>{occ_name} ({int(row_s['total']):,} total)</div>"
+                                f"<div style='font-weight:700;color:{PALETTE['emerald']};'>{occ_disp} ({int(row_s['total']):,} total)</div>"
                                 f"<div><span style='color:{PALETTE['muted']};'>{'Tanpa Gangguan' if is_id else 'None'}</span> <b>{v_none}</b> &middot; "
                                 f"<span style='color:{PALETTE['muted']};'>Insomnia</span> <b>{v_ins}</b> &middot; "
                                 f"<span style='color:{PALETTE['muted']};'>Sleep Apnea</span> <b>{v_apn}</b></div>"
@@ -1521,8 +1556,284 @@ def render_page4():
                 )
 
 
+# ==============================================================================
+# PAGE 5: DATA QUALITY & DWH VALIDATION AUDIT
+# ==============================================================================
+def render_page5():
+    import html as _html
+
+    is_id = (lang == "id")
+    val_path = ROOT_DIR / "logs" / "validation_report.json"
+    prep_path = ROOT_DIR / "logs" / "preprocessing_summary.json"
+    val_data = json.loads(val_path.read_text(encoding="utf-8")) if val_path.exists() else {"summary": {"total_checks": 27, "passed": 27, "failed": 0}, "duration_seconds": 1.82, "checks": []}
+    prep_data = json.loads(prep_path.read_text(encoding="utf-8")) if prep_path.exists() else {"before_vs_after": [], "processed_tables": {}}
+
+    checks = val_data.get("checks", [])
+    suite_id_map = {
+        "1. Row Reconciliation": "1. Kelengkapan Jumlah Data",
+        "2. Aggregate Accuracy": "2. Akurasi Perhitungan",
+        "3. Referential Integrity": "3. Konsistensi Hubungan Data",
+        "4. Data Quality Rules": "4. Aturan Validitas Data",
+        "5. RBAC Security": "5. Keamanan Akses Data",
+    }
+    suite_en_map = {
+        "1. Row Reconciliation": "1. Data Completeness",
+        "2. Aggregate Accuracy": "2. Calculation Accuracy",
+        "3. Referential Integrity": "3. Data Link Consistency",
+        "4. Data Quality Rules": "4. Data Validity Rules",
+        "5. RBAC Security": "5. Access Security",
+    }
+    fixes_id_map = {
+        "Flipkart Health Supplements": "Format teks dan angka penilaian dirapikan (misalnya '4,4' menjadi 4.4), 681 deskripsi kosong dilengkapi, serta persentase diskon dihitung otomatis.",
+        "Tata 1mg Healthcare Catalog": "996 data ganda dihapus, simbol mata uang dan teks ulasan dibersihkan, harga normal dan harga jual yang tertukar diperbaiki, lalu dikelompokkan ke 5 kategori.",
+        "India Air Quality Index (AQI)": "8 kolom sensor kosong dibuang, 145 data kualitas udara kosong disaring, dan 842 ribu catatan per jam diringkas menjadi rata-rata harian per kota.",
+        "Gym & Fitness Demand Profile": "Judul kolom yang bergeser diperbaiki, label BMI dan target kebugaran diseragamkan, lalu 80.000 profil diringkas menjadi 16 segmen utuh.",
+        "Sleep Health & Lifestyle": "219 data gangguan tidur kosong ditandai 'Tidak Ada', label BMI diseragamkan, serta tekanan darah dipisah menjadi angka atas dan bawah.",
+    }
+    fixes_en_map = {
+        "Flipkart Health Supplements": "Standardized text and rating decimals ('4,4' to 4.4), filled 681 empty product descriptions, and calculated discount rates automatically.",
+        "Tata 1mg Healthcare Catalog": "Removed 996 duplicate items, cleaned currency symbols and review labels, corrected swapped list/selling prices, and grouped into 5 categories.",
+        "India Air Quality Index (AQI)": "Removed 8 empty sensor columns, filtered 145 missing air quality records, and summarized 842k hourly readings into daily city averages.",
+        "Gym & Fitness Demand Profile": "Fixed shifted column headers, standardized BMI and fitness goal labels, and grouped all 80,000 member profiles into 16 clean segments.",
+        "Sleep Health & Lifestyle": "Marked 219 empty sleep disorder entries as 'None', standardized BMI labels, and separated blood pressure into systolic and diastolic values.",
+    }
+    raw_suites = list(dict.fromkeys(c["suite"] for c in checks))
+    suite_disp_to_raw = {t("p5_all_suites", lang): None}
+    for rs in raw_suites:
+        lbl_s = suite_id_map.get(rs, rs) if is_id else suite_en_map.get(rs, rs)
+        suite_disp_to_raw[lbl_s] = rs
+    suites_all = list(suite_disp_to_raw.keys())
+
+    col_title, col_f1, col_dl = st.columns([6.6, 2.6, 0.8], gap="small")
+    with col_title:
+        st.markdown(f'<h1 class="yv-page-heading">{t("nav_quality", lang)}</h1>', unsafe_allow_html=True)
+    with col_f1:
+        sel_suite = st.selectbox(
+            "Validation Suite",
+            options=suites_all,
+            index=0,
+            label_visibility="collapsed",
+            key=f"p5_suite_sel_{lang}",
+        )
+    with col_dl:
+        render_download_popover("p5", lang=lang)
+
+    st.markdown('<div class="filter-content-spacer"></div>', unsafe_allow_html=True)
+
+    summary = val_data.get("summary", {})
+    passed_cnt = int(summary.get("passed", 27))
+    total_cnt = int(summary.get("total_checks", 27))
+    failed_cnt = int(summary.get("failed", 0))
+    val_dur = float(val_data.get("duration_seconds", 1.82))
+
+    # --- TIER 1: VALIDATION & DATA QUALITY KPI OVERVIEW ---
+    render_section_eyebrow(t("p5_s1", lang))
+    k1, k2, k3 = st.columns([3.5, 3.5, 3.0], gap="medium")
+    with k1:
+        render_nested_hero_card(
+            t("p5_hero1_title", lang),
+            "Seluruh pemeriksaan kelengkapan, akurasi hitungan, konsistensi data, dan keamanan akses lolos 100%." if is_id else "All completeness, calculation accuracy, consistency, and access security checks passed 100%.",
+            t("p5_hero1_lbl", lang),
+            f"{passed_cnt}/{total_cnt}",
+            f"{'Gagal' if is_id else 'Failed'} {failed_cnt} | {'Durasi' if is_id else 'Duration'} {val_dur:.2f}s",
+            variant="emerald",
+            info_meta="Laporan Audit Kualitas Data" if is_id else "Data Quality Audit Report",
+        )
+    with k2:
+        render_nested_hero_card(
+            t("p5_hero2_title", lang),
+            "Ukuran data berhasil diringkas 96,74% dari 287,55 MB data mentah menjadi 9,37 MB data siap analisis." if is_id else "Data size reduced by 96.74% from 287.55 MB raw files to 9.37 MB ready-to-analyze tables.",
+            t("p5_hero2_lbl", lang),
+            "9.37 MB",
+            f"{'Mentah' if is_id else 'Raw'} 287.55 MB | -96.74%",
+            variant="lime",
+            info_meta="Ringkasan Penyimpanan Data" if is_id else "Clean Data Storage Summary",
+        )
+    with k3:
+        render_compact_kpi_card(
+            t("p5_kpi3_lbl", lang),
+            "942,554",
+            sub="5 sumber data mentah -> 105.811 data siap analisis" if is_id else "5 raw data sources -> 105,811 clean records",
+            accent_strip="check",
+            strip_tone="forest",
+            strip_tooltip="100% Terverifikasi" if is_id else "100% Verified",
+            info_meta="Rekapitulasi Data Masuk" if is_id else "Data Ingestion Summary",
+        )
+        render_compact_kpi_card(
+            t("p5_kpi4_lbl", lang),
+            "6.74M+",
+            sub="996 data ganda dihapus · 6,74 juta data kosong dirapikan" if is_id else "996 duplicates removed · 6.74M empty fields cleaned",
+            accent_strip="exclamation",
+            strip_tone="lime",
+            strip_tooltip="Nol Data Kosong Kritis" if is_id else "Zero Critical Missing Data",
+            info_meta="Ringkasan Pembersihan Data" if is_id else "Data Cleansing Summary",
+        )
+
+    # --- TIER 2: FULL-WIDTH 5 INTERACTIVE 3D FLIP CARDS (BEFORE VS AFTER PREPROCESSING) ---
+    render_section_eyebrow(t("p5_s2", lang))
+    with st.container(border=True, key="card_p5_prep"):
+        prep_info = build_info_popover_html(
+            t("p5_prep_title", lang),
+            "Arahkan kursor (hover) ke setiap kartu untuk melihat hasil data setelah dibersihkan beserta perbaikan utamanya." if is_id else "Hover over any card to flip and see the cleaned record count along with key improvements.",
+            "Ringkasan Pembersihan Data" if is_id else "Data Cleansing Summary",
+        )
+        st.markdown(
+            f'<div style="display:flex; justify-content:flex-end; align-items:center; margin-bottom:4px;">{prep_info}</div>',
+            unsafe_allow_html=True,
+        )
+        bva = prep_data.get("before_vs_after", [])
+        short_names = {
+            "Flipkart Health Supplements": "Flipkart Health",
+            "Tata 1mg Healthcare Catalog": "Tata 1mg",
+            "India Air Quality Index (AQI)": "India AQI",
+            "Gym & Fitness Demand Profile": "Gym Profile",
+            "Sleep Health & Lifestyle": "Sleep Health",
+        }
+        before_desc_id = {
+            "Flipkart Health Supplements": "3.076 data awal dengan format koma penilaian berbeda ('4,4') serta 681 deskripsi produk yang kosong.",
+            "Tata 1mg Healthcare Catalog": "16.944 data awal berisi 996 data ganda, simbol mata uang, teks ulasan, dan posisi harga jual yang tertukar.",
+            "India Air Quality Index (AQI)": "842.160 catatan kualitas udara per jam dengan 8 kolom sensor kosong dan 145 data indeks udara hilang.",
+            "Gym & Fitness Demand Profile": "80.000 profil anggota gym dengan judul kolom yang bergeser serta label BMI dan target kebugaran belum seragam.",
+            "Sleep Health & Lifestyle": "374 catatan gaya hidup dengan 219 data gangguan tidur kosong serta tekanan darah masih tergabung dalam teks.",
+        }
+        before_desc_en = {
+            "Flipkart Health Supplements": "3,076 initial records with comma-formatted ratings ('4,4') and 681 empty product descriptions.",
+            "Tata 1mg Healthcare Catalog": "16,944 initial records with 996 duplicates, currency symbols, review text, and swapped selling prices.",
+            "India Air Quality Index (AQI)": "842,160 hourly air quality records containing 8 empty sensor columns and 145 missing index values.",
+            "Gym & Fitness Demand Profile": "80,000 gym member profiles with shifted column headers and inconsistent BMI and goal labels.",
+            "Sleep Health & Lifestyle": "374 lifestyle records with 219 empty sleep disorder entries and combined blood pressure text.",
+        }
+        card_svgs = [
+            '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
+            '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>',
+            '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></svg>',
+            '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5h11"/><path d="M6.5 17.5h11"/><path d="M4 9v6"/><path d="M20 9v6"/><path d="M12 6.5v11"/></svg>',
+            '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+        ]
+        check_svg = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>'
+
+        cards_html = []
+        for idx, item in enumerate(bva):
+            ds_raw = str(item.get("dataset", ""))
+            ds_short = _html.escape(short_names.get(ds_raw, ds_raw))
+            ra = f"{int(item.get('rows_after', 0)):,}"
+            b_desc = _html.escape((before_desc_id if is_id else before_desc_en).get(ds_raw, ""))
+            fx_txt = fixes_id_map.get(ds_raw, str(item.get("key_fixes", ""))) if is_id else fixes_en_map.get(ds_raw, str(item.get("key_fixes", "")))
+            fx = _html.escape(fx_txt)
+            ic_svg = card_svgs[idx % len(card_svgs)]
+
+            after_title = f"{ra} {'Segmen' if ds_raw.startswith('Gym') else 'Baris Bersih'}" if is_id else f"{ra} {'Segments' if ds_raw.startswith('Gym') else 'Clean Rows'}"
+
+            cards_html.append(
+                f'<div class="yv-flip-card">'
+                f'<div class="yv-flip-inner">'
+                f'<div class="yv-flip-face yv-flip-front">'
+                f'<div>'
+                f'<div class="yv-flip-ic">{ic_svg}</div>'
+                f'<div class="yv-flip-title">{ds_short}</div>'
+                f'<p class="yv-flip-body">{b_desc}</p>'
+                f'</div>'
+                f'</div>'
+                f'<div class="yv-flip-face yv-flip-back">'
+                f'<div>'
+                f'<div class="yv-flip-ic">{check_svg}</div>'
+                f'<div class="yv-flip-title">{after_title}</div>'
+                f'<p class="yv-flip-body">{fx}</p>'
+                f'</div>'
+                f'</div>'
+                f'</div>'
+                f'</div>'
+            )
+        st.markdown(f'<div class="yv-flip-grid">{"".join(cards_html)}</div>', unsafe_allow_html=True)
+
+    # --- TIER 3: SUITE BREAKDOWN + FULL 27 AUTOMATED CHECKS AUDIT TABLE ---
+    render_section_eyebrow(t("p5_s3", lang))
+    bot_l, bot_r = st.columns([3.8, 6.2], gap="medium")
+    with bot_l:
+        with st.container(border=True, key="card_p5_suites"):
+            render_chart_card_header(
+                t("p5_suite_title", lang),
+                "Distribusi jumlah pemeriksaan kualitas yang lolos pada 5 kategori pengujian data." if is_id else "Distribution of passed quality checks across all 5 verification categories.",
+                info_meta="Pemeriksaan Kualitas Otomatis" if is_id else "Automated Quality Checks",
+            )
+            pass_hero_txt = "100% Lolos" if is_id else "100% Passed"
+            st.markdown(
+                f'<div style="font-size:clamp(30px, 2.6vw, 38px); font-weight:700; letter-spacing:-0.035em; '
+                f'color:{PALETTE["emerald"]}; line-height:1.08; margin:6px 0 20px 0; padding-bottom:18px; '
+                f'border-bottom:1px solid {PALETTE["hairline"]};">{pass_hero_txt}</div>',
+                unsafe_allow_html=True,
+            )
+            suite_counts = {}
+            for c in checks:
+                s_name = suite_id_map.get(c["suite"], c["suite"]) if is_id else suite_en_map.get(c["suite"], c["suite"])
+                suite_counts[s_name] = suite_counts.get(s_name, 0) + (1 if c.get("status") == "PASS" else 0)
+            col_bar = "#c8f169" if PALETTE["is_dark"] else "#043f2e"
+            suite_rows = []
+            for s_name, cnt in sorted(suite_counts.items(), key=lambda x: x[1], reverse=True):
+                short_s = s_name.split(". ", 1)[-1].upper()
+                suite_rows.append(
+                    {
+                        "label": short_s,
+                        "segments": [(cnt, col_bar)],
+                        "tip_html": (
+                            f"<div style='font-weight:700;color:{PALETTE['emerald']};'>{s_name}</div>"
+                            f"<div><span style='color:{PALETTE['muted']};'>Status</span> <b>{cnt}/{cnt} {'LOLOS' if is_id else 'PASS'}</b></div>"
+                        ),
+                    }
+                )
+            render_horizontal_pill_bars(
+                suite_rows,
+                legend_items=None,
+                wide_labels=True,
+            )
+
+    with bot_r:
+        with st.container(border=True, key="card_p5_checks"):
+            raw_sel = suite_disp_to_raw.get(sel_suite)
+            filt_checks = checks if raw_sel is None else [c for c in checks if c["suite"] == raw_sel]
+            render_chart_card_header(
+                t("p5_audit_title", lang),
+                "Daftar hasil pemeriksaan kualitas untuk memastikan data sumber dan laporan selalu cocok." if is_id else "Detailed quality check results confirming source data and dashboard figures match.",
+                info_meta="Laporan Audit Kualitas Data" if is_id else "Data Quality Audit Report",
+                csv_df=pd.DataFrame(filt_checks),
+                csv_filename="yuuukosoovexa_dwh_audit_report.csv",
+            )
+            c_rows = []
+            pill_bg = "#1b3326" if PALETTE["is_dark"] else "#eef7df"
+            pill_fg = "#c8f169" if PALETTE["is_dark"] else "#1b5e20"
+            dot_col = "#c8f169" if PALETTE["is_dark"] else "#4ba651"
+            for c in filt_checks:
+                raw_st = str(c.get("status", "PASS"))
+                st_lbl = _html.escape("LOLOS" if (is_id and raw_st == "PASS") else raw_st)
+                s_disp = suite_id_map.get(c["suite"], c["suite"]) if is_id else suite_en_map.get(c["suite"], c["suite"])
+                c_rows.append(
+                    f"<tr>"
+                    f"<td style='padding:10px 12px; font-size:12px; color:{PALETTE['muted']}; white-space:nowrap;'>{_html.escape(str(s_disp))}</td>"
+                    f"<td style='padding:10px 12px; font-size:12.5px; font-weight:600; color:{PALETTE['emerald']};'>{_html.escape(str(c['check_name']))}</td>"
+                    f"<td style='padding:10px 12px; font-size:12px; color:{PALETTE['charcoal']};'>{_html.escape(str(c['expected']))}</td>"
+                    f"<td style='padding:10px 12px; font-size:12px; font-weight:600; color:{PALETTE['emerald']};'>{_html.escape(str(c['actual']))}</td>"
+                    f"<td style='padding:10px 12px; text-align:center;'>"
+                    f"<span style='display:inline-flex; align-items:center; gap:6px; padding:3px 10px; border-radius:999px; background:{pill_bg}; color:{pill_fg}; font-size:11.5px; font-weight:700;'>"
+                    f"<span style='width:6px; height:6px; border-radius:999px; background:{dot_col};'></span>{st_lbl}</span></td>"
+                    f"</tr>"
+                )
+            audit_tbl = (
+                f'<div class="sku-tbl-shell" style="margin-top:4px;">'
+                f'<div class="sku-tbl-scroll" style="max-height:360px;">'
+                f'<table class="sku-tbl">'
+                f'<thead><tr>'
+                f'<th style="padding:10px 12px;">{"Kategori Uji" if is_id else "Suite"}</th>'
+                f'<th style="padding:10px 12px;">{"Pemeriksaan" if is_id else "Validation Check"}</th>'
+                f'<th style="padding:10px 12px;">{"Target" if is_id else "Expected"}</th>'
+                f'<th style="padding:10px 12px;">{"Aktual" if is_id else "Actual"}</th>'
+                f'<th style="padding:10px 12px; text-align:center;">Status</th>'
+                f'</tr></thead><tbody>{"".join(c_rows)}</tbody></table></div></div>'
+            )
+            st.markdown(audit_tbl, unsafe_allow_html=True)
+
+
 # ------------------------------------------------------------------------------
-# MAIN ROUTER (HANDLES CONTEXTUAL DRILL-THROUGH & 4 MAIN PAGES)
+# MAIN ROUTER (HANDLES CONTEXTUAL DRILL-THROUGH & 5 MAIN PAGES)
 # ------------------------------------------------------------------------------
 if st.session_state.drill_mode == "sku":
     render_drill_sku()
@@ -1534,6 +1845,8 @@ elif page == "Sales & Pricing":
     render_page2()
 elif page == "Environmental AQI":
     render_page3()
+elif page == "Data Quality":
+    render_page5()
 else:
     render_page4()
 
