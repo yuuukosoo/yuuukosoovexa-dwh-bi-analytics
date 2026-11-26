@@ -522,21 +522,122 @@ section[data-testid="stSidebar"] div[class*="st-key-sb_sub_"] button span[data-t
     color: {PALETTE['btn_fg']} !important;
 }}
 
-/* Clean Print-to-PDF Output */
+/* Clean Print-to-PDF Output (Defaults to A4 Landscape to Preserve Widescreen Bento Design) */
+@page {{
+    size: A4 landscape;
+    margin: 9mm 10mm;
+}}
 @media print {{
     section[data-testid="stSidebar"],
     header[data-testid="stHeader"],
     [data-testid="stToolbar"],
-    [data-testid="stPopover"] {{
+    [data-testid="stPopover"],
+    .yv-info-wrap,
+    .yv-csv-btn {{
         display: none !important;
     }}
-    * {{
+    *, *::before, *::after {{
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+        animation: none !important;
+        transition: none !important;
+    }}
+    html, body, .stApp {{
+        background-color: {PALETTE['canvas']} !important;
+        width: 100% !important;
+        overflow: visible !important;
     }}
     .block-container,
     [data-testid="stMainBlockContainer"] {{
-        padding: 0.4rem 0.6rem !important;
+        padding: 0.35rem 0.75rem !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }}
+    .filter-content-spacer {{
+        height: 16px !important;
+    }}
+    .section-eyebrow {{
+        padding: 18px 0 12px 2px !important;
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+    }}
+    .bento-card,
+    .bento-leader-card,
+    div[class*="st-key-card_"],
+    .yv-flip-card,
+    .sku-tbl-shell {{
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }}
+    .bento-hero-outer {{
+        min-height: 276px !important;
+        padding: 16px 18px 18px 18px !important;
+    }}
+    .nested-hero {{
+        min-height: 210px !important;
+        padding: 18px 18px 16px 18px !important;
+    }}
+    .kpi-value {{
+        font-size: 38px !important;
+    }}
+    .bento-compact {{
+        min-height: 130px !important;
+    }}
+    .bento-split-strip {{
+        width: 58px !important;
+    }}
+    [data-testid="stSelectbox"] div[role="group"] {{
+        min-height: 38px !important;
+        padding-left: 12px !important;
+        padding-right: 8px !important;
+    }}
+    [data-testid="stSelectbox"] input[role="combobox"] {{
+        font-size: 12px !important;
+    }}
+    .hm-grid {{
+        grid-template-columns: 64px repeat(10, minmax(0, 1fr)) !important;
+        gap: 4px !important;
+    }}
+    .hm-col-head {{
+        font-size: 9px !important;
+    }}
+    .spb-capsule {{
+        width: clamp(22px, 3vw, 38px) !important;
+    }}
+    .sku-tbl-scroll {{
+        max-height: none !important;
+        overflow: visible !important;
+    }}
+    .yv-flip-grid {{
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+    }}
+    .yv-flip-card {{
+        height: 248px !important;
+    }}
+    .yv-flip-title {{
+        font-size: 16px !important;
+    }}
+    .yv-flip-body {{
+        font-size: 10.5px !important;
+    }}
+}}
+/* Resilient Fallback When User Manually Switches Print Dialog to Portrait */
+@media print and (orientation: portrait) {{
+    div[data-testid="stHorizontalBlock"] {{
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+    }}
+    div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
+        flex: 1 1 46% !important;
+        min-width: 280px !important;
+    }}
+    div[data-testid="stHorizontalBlock"]:has(div[class*="st-key-card_"]:not([class*="st-key-card_p3_drill"])) > div[data-testid="stColumn"] {{
+        flex: 1 1 100% !important;
+        min-width: 100% !important;
+    }}
+    .yv-flip-grid {{
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }}
 }}
 
@@ -1971,12 +2072,13 @@ div[class*="st-key-btn_drill_back"] button span {{
     display: flex;
     align-items: flex-end;
     justify-content: space-around;
-    gap: 10px;
-    padding: 0 8px;
+    gap: 6px;
+    padding: 0 6px;
 }}
 .spb-col {{
     position: relative;
     flex: 1;
+    min-width: 0;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -1986,7 +2088,8 @@ div[class*="st-key-btn_drill_back"] button span {{
 }}
 .spb-capsule {{
     position: relative;
-    width: clamp(34px, 4.6vw, 52px);
+    width: clamp(24px, 3.8vw, 50px);
+    max-width: 100%;
     border-radius: 9999px !important;
     transition: transform 160ms ease, filter 160ms ease;
     background-image: repeating-linear-gradient(
@@ -2329,11 +2432,14 @@ div[class*="st-key-btn_drill_back"] button span {{
     padding: 8px 4px 6px 2px;
     font-family: var(--font-ui-sans);
     user-select: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }}
 .hm-grid {{
     display: grid;
-    grid-template-columns: 74px repeat(10, minmax(0, 1fr));
-    gap: 6px;
+    grid-template-columns: 70px repeat(10, minmax(28px, 1fr));
+    min-width: 420px;
+    gap: 5px;
     align-items: center;
 }}
 .hm-col-head {{
@@ -2856,44 +2962,142 @@ iframe[title="streamlit.components.v1.html"],
     background: transparent !important;
 }}
 
-/* Responsive Reflow Breakpoints (R-03) */
+/* Responsive Reflow Breakpoints (Tablet & Mobile Adaptive Grid without Altering Desktop >= 1100px) */
 @media (max-width: 1100px) {{
-    .block-container {{
-        padding-left: 1.75rem !important;
-        padding-right: 1.75rem !important;
+    .block-container,
+    [data-testid="stMainBlockContainer"] {{
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
     }}
     .yv-brand-header {{
-        margin-left: -1.75rem;
-        margin-right: -1.75rem;
-        width: calc(100% + 3.5rem);
-        padding-left: 1.75rem;
-        padding-right: 1.75rem;
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+        width: calc(100% + 3rem);
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }}
+    /* Allow multi-column rows to wrap gracefully on tablets & narrow windows */
+    div[data-testid="stHorizontalBlock"] {{
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+    }}
+    div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
+        flex: 1 1 280px !important;
+        min-width: 240px !important;
+    }}
+    /* Keep filter bar pills readable without truncating to 2 letters */
+    [data-testid="stSelectbox"] {{
+        min-width: 150px !important;
+    }}
+    .bento-split-strip {{
+        width: 56px !important;
+    }}
+    .arc-wrap {{
+        flex-wrap: wrap;
+        justify-content: center;
     }}
 }}
 @media (max-width: 768px) {{
+    section[data-testid="stSidebar"] {{
+        max-width: 82vw !important;
+    }}
     .block-container,
     [data-testid="stMainBlockContainer"] {{
-        padding-left: 0.75rem !important;
-        padding-right: 0.75rem !important;
-        padding-top: 0 !important;
+        padding-left: 0.85rem !important;
+        padding-right: 0.85rem !important;
+        padding-top: 0.5rem !important;
     }}
     .yv-brand-header {{
-        margin-left: -0.75rem;
-        margin-right: -0.75rem;
-        width: calc(100% + 1.5rem);
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
-        height: 64px;
-        margin-bottom: 18px;
+        margin-left: -0.85rem;
+        margin-right: -0.85rem;
+        width: calc(100% + 1.7rem);
+        padding-left: 0.85rem;
+        padding-right: 0.85rem;
+        height: 60px;
+        margin-bottom: 14px;
+    }}
+    .filter-content-spacer {{
+        height: 20px !important;
+    }}
+    .section-eyebrow {{
+        font-size: 16px !important;
+        padding: 22px 0 14px 2px !important;
+    }}
+    /* Clean single-column vertical stack on mobile phones */
+    div[data-testid="stHorizontalBlock"] {{
+        flex-direction: column !important;
+        gap: 12px !important;
+    }}
+    div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
+        width: 100% !important;
+        min-width: 100% !important;
+        flex: 1 1 100% !important;
     }}
     .bento-card {{
         border-radius: 16px;
         padding: 14px 16px;
     }}
+    .bento-hero-outer {{
+        min-height: 236px !important;
+        padding: 16px 16px 18px 16px !important;
+    }}
+    .nested-hero {{
+        min-height: 192px !important;
+        padding: 18px 18px 16px 18px !important;
+    }}
+    .kpi-value {{
+        font-size: clamp(30px, 8.5vw, 42px) !important;
+    }}
+    .bento-compact {{
+        min-height: 132px !important;
+    }}
+    .bento-split-left {{
+        padding: 16px 12px 16px 16px !important;
+    }}
+    .bento-split-strip {{
+        width: 58px !important;
+    }}
     div[data-testid="stVerticalBlockBorderWrapper"],
     div[class*="st-key-card_"] {{
         border-radius: 16px !important;
-        padding: 12px 14px !important;
+        padding: 14px 15px !important;
+    }}
+    div[class*="st-key-card_p5_prep"] {{
+        padding: 16px 14px 20px 14px !important;
+    }}
+    .yv-flip-card {{
+        height: 236px !important;
+    }}
+    .yv-info-pop {{
+        max-width: calc(100vw - 44px) !important;
+        right: -4px !important;
+    }}
+    .leader-body {{
+        flex-wrap: wrap;
+        gap: 10px;
+    }}
+    .hpb-label {{
+        width: 82px !important;
+    }}
+    .hpb-label-wide {{
+        width: 112px !important;
+    }}
+    .sku-highlight-stack {{
+        min-height: auto !important;
+    }}
+    .tm-mosaic {{
+        height: auto !important;
+        flex-direction: column !important;
+    }}
+    .tm-col {{
+        height: auto !important;
+    }}
+}}
+/* Touch devices: allow tap/focus on Page 5 flip cards */
+@media (hover: none) {{
+    .yv-flip-card:active .yv-flip-inner,
+    .yv-flip-card:focus-within .yv-flip-inner {{
+        transform: rotateY(180deg);
     }}
 }}
 </style>"""
